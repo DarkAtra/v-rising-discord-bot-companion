@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <AssemblyName>v-rising-server-mod-test</AssemblyName>
+        <Description>Test project for a server mod</Description>
+        <Version>0.1.4</Version>
+
+        <LangVersion>latest</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
+
+        <RootNamespace>v_rising_server_mod_test</RootNamespace>
+        <AssemblyVersion>0.1.4.0</AssemblyVersion>
+        <FileVersion>0.1.4.0</FileVersion>
+
+        <GamePath>G:\V Rising Mod Server\vrisingserver</GamePath>
+        <PluginsPath>$(GamePath)\BepInEx\plugins</PluginsPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" IncludeAssets="compile" />
+        <PackageReference Include="BepInEx.Core" Version="6.0.0-be*" IncludeAssets="compile" />
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+        <PackageReference Include="VRising.Unhollowed.Client" Version="0.6.1.*" />
+        <PackageReference Include="VRising.VampireCommandFramework" Version="[0.5.3,)" />
+    </ItemGroup>
+
+    <Target Name="CopyDLLsToTargetServer" AfterTargets="Build">
+        <Message Text="Copying plugin dlls to dev server" Importance="High" />
+        <Copy SourceFiles="$(TargetDir)$(ProjectName).dll;$(TargetDir)$(ProjectName).pdb" DestinationFolder="$(PluginsPath)" />
+        <Message Text="Successfuly copied plugin dlls" Importance="High" />
+    </Target>
+</Project>
