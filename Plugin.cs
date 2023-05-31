@@ -41,4 +41,26 @@ public class Plugin : BasePlugin {
         _harmony?.UnpatchSelf();
         return true;
     }
+
+    /// <summary> 
+    /// Example VCF command that demonstrated default values and primitive types
+    /// Visit https://github.com/decaprime/VampireCommandFramework for more info 
+    /// </summary>
+    /// <remarks>
+    /// How you could call this command from chat:
+    ///
+    /// .v_rising_server_mod_test-example "some quoted string" 1 1.5
+    /// .v_rising_server_mod_test-example boop 21232
+    /// .v_rising_server_mod_test-example boop-boop
+    ///</remarks>
+    [Command(
+        name: "v_rising_server_mod_test-example",
+        description: "Example command from v_rising_server_mod_test",
+        adminOnly: true
+    )]
+    public void ExampleCommand(ICommandContext ctx, string someString, int num = 5, float num2 = 1.5f) {
+        ctx.Reply($"You passed in {someString} and {num} and {num2}");
+
+        VWorld.GetAllOnlinePlayerCharacters().ForEach(character => Logger.LogInfo($"Char: {character.Name.ToString()}"));
+    }
 }

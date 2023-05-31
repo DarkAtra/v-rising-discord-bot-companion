@@ -41,6 +41,7 @@ public class RconPatches {
         var characterName = args[0];
         Plugin.Logger.LogInfo($"Using character name: {characterName}");
 
+        // TODO: using EntityQueries in an rcon command handler does not work, delegate that to the main thread somehow and let the rcon thread wait for the result
         var character = VWorld.GetAllOnlinePlayerCharacters()
                             .FirstOrDefault(character => character.Name.ToString() == characterName) as PlayerCharacter?
                         ?? throw new ArgumentException($"Error: no character with name '{characterName}' exists");

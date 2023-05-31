@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ProjectM;
 using Unity.Collections;
 using Unity.Entities;
@@ -27,8 +28,10 @@ public static class VWorld {
 
     public static List<PlayerCharacter> GetAllOnlinePlayerCharacters() {
         return ListUtils.convert(Server.EntityManager
-            .CreateEntityQuery(ComponentType.ReadOnly<PlayerCharacter>())
-            .ToComponentDataArray<PlayerCharacter>(Allocator.Temp));
+                .CreateEntityQuery(ComponentType.ReadOnly<PlayerCharacter>())
+                .ToEntityArray(Allocator.Temp))
+            .Select(entity => Server.EntityManager.GetComponentData<PlayerCharacter>(entity))
+            .ToList();
     }
 
     private static World? GetWorld(string name) {
