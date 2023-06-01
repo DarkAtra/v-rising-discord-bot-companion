@@ -3,6 +3,8 @@ using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using Il2CppInterop.Runtime.Injection;
+using UnityEngine;
 using VampireCommandFramework;
 using VampireCommandFramework.Breadstone;
 
@@ -15,6 +17,7 @@ public class Plugin : BasePlugin {
 
     public static ManualLogSource Logger = null!;
     private Harmony? _harmony;
+    private Component? _rconCommandDispatcherComponent;
 
     public override void Load() {
 
@@ -28,6 +31,10 @@ public class Plugin : BasePlugin {
         // Plugin startup logic
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} is loaded!");
 
+        // inject components
+        ClassInjector.RegisterTypeInIl2Cpp<RconCommandDispatcher>();
+        _rconCommandDispatcherComponent = AddComponent<RconCommandDispatcher>();
+
         // Harmony patching
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         _harmony.PatchAll(Assembly.GetExecutingAssembly());
@@ -39,28 +46,9 @@ public class Plugin : BasePlugin {
     public override bool Unload() {
         CommandRegistry.UnregisterAssembly();
         _harmony?.UnpatchSelf();
+        if (_rconCommandDispatcherComponent != null) {
+            Object.Destroy(_rconCommandDispatcherComponent);
+        }
         return true;
-    }
-
-    /// <summary> 
-    /// Example VCF command that demonstrated default values and primitive types
-    /// Visit https://github.com/decaprime/VampireCommandFramework for more info 
-    /// </summary>
-    /// <remarks>
-    /// How you could call this command from chat:
-    ///
-    /// .v_rising_server_mod_test-example "some quoted string" 1 1.5
-    /// .v_rising_server_mod_test-example boop 21232
-    /// .v_rising_server_mod_test-example boop-boop
-    ///</remarks>
-    [Command(
-        name: "v_rising_server_mod_test-example",
-        description: "Example command from v_rising_server_mod_test",
-        adminOnly: true
-    )]
-    public void ExampleCommand(ICommandContext ctx, string someString, int num = 5, float num2 = 1.5f) {
-        ctx.Reply($"You passed in {someString} and {num} and {num2}");
-
-        VWorld.GetAllOnlinePlayerCharacters().ForEach(character => Logger.LogInfo($"Char: {character.Name.ToString()}"));
     }
 }

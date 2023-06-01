@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using ProjectM;
@@ -23,32 +23,27 @@ public class RconPatches {
             "atra_get_player_score",
             "atra_get_player_score name",
             "Get the gear level for a player by name.",
-            DelegateSupport.ConvertDelegate<CommandHandler>(
-                new Func<string, Il2CppSystem.Collections.Generic.IList<string>, string>((command, _args) => {
-                    var args = ListUtils.convert(_args);
-                    return HandleGetPlayerScore(command, args);
-                })
-            )
+            BuildAdapter(GetPlayerScoreCommand.HandleGetPlayerScore)
         );
     }
 
-    private static string HandleGetPlayerScore(string command, List<string> args) {
+    private static CommandHandler BuildAdapter(Func<string, List<string>, string> commandHandler) {
+        return DelegateSupport.ConvertDelegate<CommandHandler>(
+            new Func<string, Il2CppSystem.Collections.Generic.IList<string>, string>((command, args) => {
 
-        if (args.Count != 1) {
-            throw new ArgumentException("Error: this command expects exactly one argument <name>");
-        }
+                var commandResponse = RconCommandDispatcher.Instance.Dispatch(command, ListUtils.Convert(args), commandHandler);
+                while (commandResponse.Status == Status.PENDING) {
+                    Thread.Sleep(25);
+                }
 
-        var characterName = args[0];
-        Plugin.Logger.LogInfo($"Using character name: {characterName}");
+                if (commandResponse.Status == Status.FAILED) {
+                    Plugin.Logger.LogInfo($"Exception handling command '{command}': {commandResponse.Exception?.Message}");
+                    return "error";
+                }
 
-        // TODO: using EntityQueries in an rcon command handler does not work, delegate that to the main thread somehow and let the rcon thread wait for the result
-        var character = VWorld.GetAllOnlinePlayerCharacters()
-                            .FirstOrDefault(character => character.Name.ToString() == characterName) as PlayerCharacter?
-                        ?? throw new ArgumentException($"Error: no character with name '{characterName}' exists");
-
-        Plugin.Logger.LogInfo($"Found character for that name. UserEntity: {character.UserEntity}");
-
-        var equipment = VWorld.Server.EntityManager.GetComponentData<Equipment>(character.UserEntity);
-        return $"{equipment.GetFullLevel()}";
+                Plugin.Logger.LogInfo($"Result: {commandResponse.Data}");
+                return commandResponse.Data ?? "error";
+            })
+        )!;
     }
 }
