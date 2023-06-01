@@ -41,7 +41,6 @@ public class RconPatches {
                     return "error";
                 }
 
-                Plugin.Logger.LogInfo($"Result: {commandResponse.Data}");
                 return commandResponse.Data ?? "error";
             })
         )!;
