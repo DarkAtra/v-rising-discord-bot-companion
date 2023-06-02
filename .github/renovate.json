@@ -1,0 +1,19 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:base",
+        ":dependencyDashboard",
+        ":rebaseStalePrs",
+        ":renovatePrefix",
+        ":semanticCommits",
+        ":labels(dependencies)",
+        "group:allNonMajor",
+        "schedule:weekly"
+    ],
+    "packageRules": [
+        {
+            "matchPackagePatterns": "*",
+            "allowedVersions": "!/-.+\\.[0-9]+$/"
+        }
+    ]
+}
