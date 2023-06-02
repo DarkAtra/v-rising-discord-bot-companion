@@ -10,12 +10,6 @@ public class QueryDispatcher : MonoBehaviour {
 
     private readonly Queue<Query> _pendingQueries = new();
 
-    public AsyncQuery<T> Dispatch<T>(Func<T> query) {
-        var commandResponse = new AsyncQuery<T>(query);
-        _pendingQueries.Enqueue(commandResponse);
-        return commandResponse;
-    }
-
     private void Awake() {
         Instance = this;
     }
@@ -25,5 +19,11 @@ public class QueryDispatcher : MonoBehaviour {
             var pendingCommand = _pendingQueries.Dequeue();
             pendingCommand.Invoke();
         }
+    }
+
+    public AsyncQuery<T> Dispatch<T>(Func<T> query) {
+        var commandResponse = new AsyncQuery<T>(query);
+        _pendingQueries.Enqueue(commandResponse);
+        return commandResponse;
     }
 }

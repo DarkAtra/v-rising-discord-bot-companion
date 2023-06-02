@@ -48,11 +48,12 @@ public static class VWorld {
 }
 
 public class Player {
-    public Entity Entity { get; private set; }
-    public PlayerCharacter Character { get; private set; }
 
     public Player(Entity entity, PlayerCharacter character) {
         Entity = entity;
         Character = character;
     }
+
+    public Entity Entity { get; private set; }
+    public PlayerCharacter Character { get; private set; }
 }

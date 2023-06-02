@@ -15,7 +15,7 @@ namespace v_rising_discord_bot_companion.command;
 
 [HarmonyPatch(typeof(ServerWebAPISystem))]
 public class ServerWebAPISystemPatches {
-    
+
     private readonly static JsonSerializerOptions _serializeOptions = new() {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
 
     [HarmonyPostfix]
@@ -32,7 +32,7 @@ public class ServerWebAPISystemPatches {
             BuildAdapter(_ => CharacterInfoCommand.GetCharacters())
         ));
     }
-    
+
     private static HttpServiceReceiveThread.RequestHandler BuildAdapter(Func<HttpListenerContext, object> commandHandler) {
         return DelegateSupport.ConvertDelegate<HttpServiceReceiveThread.RequestHandler>(
             new Action<HttpListenerContext>(context => {
