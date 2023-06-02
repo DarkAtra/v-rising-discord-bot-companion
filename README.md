@@ -12,7 +12,7 @@ characters.
 
 #### Example Response
 
-```json
+```http
 HTTP/1.1 200 OK
 Server: Mono-HTTPAPI/1.0
 Date: Fri, 02 Jun 2023 19:44:16 GMT
