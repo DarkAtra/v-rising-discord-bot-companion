@@ -1,14 +1,18 @@
 ﻿using System;
 
-namespace v_rising_server_mod_test;
+namespace v_rising_server_mod_test.query;
 
-public class AsyncRconCommandResponse {
-    public string? Data { get; private set; }
+public interface Query {
+    public void Invoke();
+}
+
+public class AsyncQuery<T> : Query {
+    public T? Data { get; private set; }
     public Exception? Exception { get; private set; }
     public Status Status { get; private set; }
-    private Func<string> _action;
+    private readonly Func<T> _action;
 
-    public AsyncRconCommandResponse(Func<string> action) {
+    public AsyncQuery(Func<T> action) {
         Status = Status.PENDING;
         _action = action;
     }
@@ -23,10 +27,4 @@ public class AsyncRconCommandResponse {
             Status = Status.FAILED;
         }
     }
-}
-
-public enum Status {
-    PENDING,
-    SUCCESSFUL,
-    FAILED
 }

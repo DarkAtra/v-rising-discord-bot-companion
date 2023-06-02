@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using ProjectM;
 using Unity.Entities;
 
-namespace v_rising_server_mod_test;
+namespace v_rising_server_mod_test.gearlevel;
 
-public class GetPlayerScoreCommand {
+public static class CharacterGearLevelCommand {
 
-    public static string HandleGetPlayerScore(string command, List<string> args) {
+    public static CharacterGearLevelResponse HandleGetPlayerScore(string characterName) {
 
-        if (args.Count != 1) {
-            throw new ArgumentException("Error: this command expects exactly one argument <name>");
-        }
-
-        var characterName = args[0];
         var characterEntity = VWorld.GetAllPlayerCharacters().FirstOrDefault(character =>
                                   VWorld.Server.EntityManager.GetComponentData<PlayerCharacter>(character).Name.ToString() == characterName
                               ) as Entity?
@@ -22,10 +16,10 @@ public class GetPlayerScoreCommand {
 
         try {
             var equipment = VWorld.Server.EntityManager.GetComponentData<Equipment>(characterEntity);
-            return $"{equipment.GetFullLevel()}";
+            return new CharacterGearLevelResponse(characterName, equipment.GetFullLevel());
         }
         catch (ArgumentException) { // if the entity has no armor equipped
-            return "0";
+            return new CharacterGearLevelResponse(characterName, 0);
         }
     }
 }

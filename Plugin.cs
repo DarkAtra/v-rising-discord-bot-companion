@@ -5,6 +5,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
+using v_rising_server_mod_test.query;
 using VampireCommandFramework;
 using VampireCommandFramework.Breadstone;
 
@@ -17,7 +18,7 @@ public class Plugin : BasePlugin {
 
     public static ManualLogSource Logger = null!;
     private Harmony? _harmony;
-    private Component? _rconCommandDispatcherComponent;
+    private Component? _queryDispatcher;
 
     public override void Load() {
 
@@ -32,8 +33,8 @@ public class Plugin : BasePlugin {
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} is loaded!");
 
         // inject components
-        ClassInjector.RegisterTypeInIl2Cpp<RconCommandDispatcher>();
-        _rconCommandDispatcherComponent = AddComponent<RconCommandDispatcher>();
+        ClassInjector.RegisterTypeInIl2Cpp<QueryDispatcher>();
+        _queryDispatcher = AddComponent<QueryDispatcher>();
 
         // Harmony patching
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
@@ -46,8 +47,8 @@ public class Plugin : BasePlugin {
     public override bool Unload() {
         CommandRegistry.UnregisterAssembly();
         _harmony?.UnpatchSelf();
-        if (_rconCommandDispatcherComponent != null) {
-            Object.Destroy(_rconCommandDispatcherComponent);
+        if (_queryDispatcher != null) {
+            Object.Destroy(_queryDispatcher);
         }
         return true;
     }
