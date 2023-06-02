@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ProjectM;
 using Unity.Collections;
 using Unity.Entities;
@@ -25,12 +26,15 @@ public static class VWorld {
 
     public static bool IsServer => Application.productName == "VRisingServer";
 
-    public static List<Entity> GetAllPlayerCharacters() {
+    public static List<Player> GetAllPlayerCharacters() {
         return ListUtils.Convert(
-            Server.EntityManager
-                .CreateEntityQuery(ComponentType.ReadOnly<PlayerCharacter>())
-                .ToEntityArray(Allocator.Temp)
-        );
+                Server.EntityManager
+                    .CreateEntityQuery(ComponentType.ReadOnly<PlayerCharacter>())
+                    .ToEntityArray(Allocator.Temp)
+            ).Select(entity =>
+                new Player(entity, Server.EntityManager.GetComponentData<PlayerCharacter>(entity))
+            )
+            .ToList();
     }
 
     private static World? GetWorld(string name) {
@@ -40,5 +44,15 @@ public static class VWorld {
             }
         }
         return null;
+    }
+}
+
+public class Player {
+    public Entity Entity { get; private set; }
+    public PlayerCharacter Character { get; private set; }
+
+    public Player(Entity entity, PlayerCharacter character) {
+        Entity = entity;
+        Character = character;
     }
 }

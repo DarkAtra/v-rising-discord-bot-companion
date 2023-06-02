@@ -8,7 +8,7 @@ using Il2CppSystem.Net;
 using Il2CppSystem.Text.RegularExpressions;
 using ProjectM;
 using ProjectM.Network;
-using v_rising_server_mod_test.gearlevel;
+using v_rising_server_mod_test.character;
 using v_rising_server_mod_test.query;
 
 namespace v_rising_server_mod_test.command;
@@ -26,18 +26,10 @@ public class ServerWebAPISystemPatches {
             return;
         }
 
-        var gearLevelRouteRegex = new Regex("/v-rising-discord-bot/characters/(?<characterName>[a-zA-Z0-9]+)/gear-level");
         __instance._HttpReceiveService.AddRoute(new HttpServiceReceiveThread.Route(
-            gearLevelRouteRegex,
+            new Regex("/v-rising-discord-bot/characters"),
             "GET",
-            BuildAdapter(context => {
-
-                var requestUrl = context.Request.Url.ToString();
-                var match = gearLevelRouteRegex.Match(requestUrl);
-
-                var characterName = match.Groups["characterName"].Value!;
-                return CharacterGearLevelCommand.HandleGetPlayerScore(characterName);
-            })
+            BuildAdapter(_ => CharacterInfoCommand.GetCharacters())
         ));
     }
     
@@ -52,7 +44,6 @@ public class ServerWebAPISystemPatches {
 
                 object responseData;
                 if (commandResponse.Status is Status.FAILED or Status.PENDING) {
-                    // TODO: proper error handling
                     Plugin.Logger.LogInfo($"Request with url '{context.Request.Url.ToString()}' failed with message: {commandResponse.Exception?.Message}");
                     responseData = new Problem("about:blank", "Internal Server Error");
                 } else {
