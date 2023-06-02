@@ -6,7 +6,7 @@ using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 
-namespace v_rising_server_mod_test;
+namespace v_rising_discord_bot_companion;
 
 public static class VWorld {
     private static World? _serverWorld;

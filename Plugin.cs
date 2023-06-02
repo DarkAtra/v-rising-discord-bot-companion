@@ -5,11 +5,11 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
-using v_rising_server_mod_test.query;
+using v_rising_discord_bot_companion.query;
 using VampireCommandFramework;
 using VampireCommandFramework.Breadstone;
 
-namespace v_rising_server_mod_test;
+namespace v_rising_discord_bot_companion;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency("gg.deca.VampireCommandFramework")]

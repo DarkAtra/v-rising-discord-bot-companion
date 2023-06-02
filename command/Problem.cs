@@ -1,4 +1,4 @@
-﻿namespace v_rising_server_mod_test.command;
+﻿namespace v_rising_discord_bot_companion.command;
 
 public class Problem {
     public string Type { get; private set; }

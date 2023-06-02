@@ -8,10 +8,10 @@ using Il2CppSystem.Net;
 using Il2CppSystem.Text.RegularExpressions;
 using ProjectM;
 using ProjectM.Network;
-using v_rising_server_mod_test.character;
-using v_rising_server_mod_test.query;
+using v_rising_discord_bot_companion.character;
+using v_rising_discord_bot_companion.query;
 
-namespace v_rising_server_mod_test.command;
+namespace v_rising_discord_bot_companion.command;
 
 [HarmonyPatch(typeof(ServerWebAPISystem))]
 public class ServerWebAPISystemPatches {

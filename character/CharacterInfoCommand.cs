@@ -2,7 +2,7 @@
 using System.Linq;
 using ProjectM;
 
-namespace v_rising_server_mod_test.character;
+namespace v_rising_discord_bot_companion.character;
 
 public static class CharacterInfoCommand {
 

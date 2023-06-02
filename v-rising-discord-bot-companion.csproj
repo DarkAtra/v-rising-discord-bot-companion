@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <AssemblyName>v-rising-server-mod-test</AssemblyName>
-        <Description>Test project for a server mod</Description>
+        <AssemblyName>v-rising-discord-bot-companion</AssemblyName>
+        <Description>A companion mod for DarkAtra's v-rising-discord-bot.</Description>
         <Version>0.1.4</Version>
 
         <LangVersion>latest</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
 
-        <RootNamespace>v_rising_server_mod_test</RootNamespace>
+        <RootNamespace>v_rising_discord_bot_companion</RootNamespace>
         <AssemblyVersion>0.1.4.0</AssemblyVersion>
         <FileVersion>0.1.4.0</FileVersion>
 

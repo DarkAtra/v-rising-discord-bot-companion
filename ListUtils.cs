@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Unity.Collections;
 
-namespace v_rising_server_mod_test;
+namespace v_rising_discord_bot_companion;
 
 public static class ListUtils {
 
