@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
@@ -16,7 +17,10 @@ namespace v_rising_discord_bot_companion.command;
 [HarmonyPatch(typeof(ServerWebAPISystem))]
 public class ServerWebAPISystemPatches {
 
-    private readonly static JsonSerializerOptions _serializeOptions = new() {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
+    private readonly static JsonSerializerOptions _serializeOptions = new() {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
 
     [HarmonyPostfix]
     [HarmonyPatch("OnCreate")]

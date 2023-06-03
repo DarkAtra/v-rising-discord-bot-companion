@@ -23,11 +23,17 @@ Keep-Alive: timeout=15,max=100
 [
   {
     "name": "Atra",
-    "gearLevel": 83
+    "gearLevel": 83,
+    "clan": "Test",
+    "killedVBloods": [
+      "FOREST_WOLF",
+      "BANDIT_STONEBREAKER"
+    ]
   },
   {
     "name": "Socium",
-    "gearLevel": 84
+    "gearLevel": 84,
+    "killedVBloods": []
   }
 ]
 ```

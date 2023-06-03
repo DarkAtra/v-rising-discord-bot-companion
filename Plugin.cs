@@ -2,12 +2,12 @@
 using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using Bloodstone.API;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 using v_rising_discord_bot_companion.query;
 using VampireCommandFramework;
-using VampireCommandFramework.Breadstone;
 
 namespace v_rising_discord_bot_companion;
 

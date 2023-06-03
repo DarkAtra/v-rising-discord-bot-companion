@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectM;
+using ProjectM.Network;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
@@ -9,31 +10,28 @@ using UnityEngine;
 namespace v_rising_discord_bot_companion;
 
 public static class VWorld {
-    private static World? _serverWorld;
 
-    public static World Server {
-        get {
-            if (_serverWorld != null) {
-                return _serverWorld;
-            }
+    private readonly static Lazy<World> _server = new(() =>
+        GetWorld("Server") ?? throw new Exception("There is no Server world (yet). Did you install a server mod on the client?")
+    );
 
-            _serverWorld = GetWorld("Server") ?? throw new Exception(
-                "There is no Server world (yet). Did you install a server mod on the client?"
-            );
-            return _serverWorld;
-        }
-    }
+    public readonly static World Server = _server.Value;
 
+    public static EntityManager EntityManager = Server.EntityManager;
     public static bool IsServer => Application.productName == "VRisingServer";
 
     public static List<Player> GetAllPlayerCharacters() {
         return ListUtils.Convert(
-                Server.EntityManager
-                    .CreateEntityQuery(ComponentType.ReadOnly<PlayerCharacter>())
+                EntityManager
+                    .CreateEntityQuery(ComponentType.ReadOnly<User>())
                     .ToEntityArray(Allocator.Temp)
-            ).Select(entity =>
-                new Player(entity, Server.EntityManager.GetComponentData<PlayerCharacter>(entity))
-            )
+            ).Select(userEntity => {
+                var user = EntityManager.GetComponentData<User>(userEntity);
+                return new Player(user,
+                    userEntity,
+                    EntityManager.GetComponentData<PlayerCharacter>(user.LocalCharacter._Entity),
+                    user.LocalCharacter._Entity);
+            })
             .ToList();
     }
 
@@ -47,13 +45,9 @@ public static class VWorld {
     }
 }
 
-public class Player {
-
-    public Player(Entity entity, PlayerCharacter character) {
-        Entity = entity;
-        Character = character;
-    }
-
-    public Entity Entity { get; private set; }
-    public PlayerCharacter Character { get; private set; }
-}
+public readonly record struct Player(
+    User User,
+    Entity UserEntity,
+    PlayerCharacter Character,
+    Entity CharacterEntity
+);
