@@ -19,6 +19,7 @@ Server: Mono-HTTPAPI/1.0
 Date: Fri, 02 Jun 2023 19:44:16 GMT
 Transfer-Encoding: chunked
 Keep-Alive: timeout=15,max=100
+Content-Type: application/json
 
 [
   {

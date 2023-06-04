@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mime;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -53,6 +54,8 @@ public class ServerWebAPISystemPatches {
                 } else {
                     responseData = commandResponse.Data!;
                 }
+
+                context.Response.ContentType = MediaTypeNames.Application.Json;
 
                 var responseWriter = new StreamWriter(context.Response.OutputStream);
                 responseWriter.Write(JsonSerializer.Serialize(responseData, _serializeOptions));
