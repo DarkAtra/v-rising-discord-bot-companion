@@ -25,7 +25,9 @@ public static class VWorld {
                 EntityManager
                     .CreateEntityQuery(ComponentType.ReadOnly<User>())
                     .ToEntityArray(Allocator.Temp)
-            ).Select(userEntity => {
+            )
+            .Where(userEntity => EntityManager.GetComponentData<User>(userEntity).LocalCharacter._Entity != Entity.Null)
+            .Select(userEntity => {
                 var user = EntityManager.GetComponentData<User>(userEntity);
                 return new Player(user,
                     userEntity,
