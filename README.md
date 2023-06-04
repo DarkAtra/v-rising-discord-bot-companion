@@ -3,13 +3,14 @@
 This BepInEx plugin for V Rising Servers adds additional http endpoints to the server's `ServerWebAPISystem`. This
 allows you to expose additional information about players, such as the current gear level.
 
+It is recommended to **not** expose the server's api port to the internet.
+
 ## Endpoints
 
 ### `/v-rising-discord-bot/characters`
 
-Returns information about all characters that are currently on the server. Intended to be used in conjunction
-with the [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot) to display the gear level for all
-characters.
+Returns information about all characters that exist on the server. Intended to be used in conjunction with
+the [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot) to display the gear level for all characters.
 
 #### Example Response
 
