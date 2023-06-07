@@ -12,6 +12,7 @@ using VampireCommandFramework;
 namespace v_rising_discord_bot_companion;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("gg.deca.Bloodstone")]
 [BepInDependency("gg.deca.VampireCommandFramework")]
 [Reloadable]
 public class Plugin : BasePlugin {
