@@ -52,5 +52,5 @@ Please note that modding support for V Rising Gloomrot is still experimental. Pr
    and [VampireCommandFramework.dll](https://github.com/decaprime/VampireCommandFramework/releases/tag/v0.8.0).
 5. Move all dlls into your server's BepInEx `plugins` folder.
 6. Start the server and test if the new endpoint is functional by executing the following command in the
-   terminal: `curl http://localhost:25570/v-rising-discord-bot/characters`. Validate that the returned status code is 200 as soon as the server has fully
+   terminal: `curl http://localhost:<your-api-port-here>/v-rising-discord-bot/characters`. Validate that the returned status code is 200 as soon as the server has fully
    started.
