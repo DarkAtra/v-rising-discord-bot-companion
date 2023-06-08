@@ -51,7 +51,10 @@ public class ServerWebAPISystemPatches {
                 if (commandResponse.Status is Status.FAILED or Status.PENDING) {
                     Plugin.Logger.LogInfo($"Request with url '{context.Request.Url.ToString()}' failed with message: {commandResponse.Exception?.Message}");
                     context.Response.StatusCode = 500;
-                    responseData = new Problem("about:blank", "Internal Server Error");
+                    responseData = new Problem(
+                        Type: "about:blank",
+                        Title: "Internal Server Error"
+                    );
                 } else {
                     responseData = commandResponse.Data!;
                 }

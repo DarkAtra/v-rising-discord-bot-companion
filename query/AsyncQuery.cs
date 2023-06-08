@@ -7,6 +7,11 @@ public interface Query {
 }
 
 public class AsyncQuery<T> : Query {
+
+    public Status Status { get; private set; }
+    public T? Data { get; private set; }
+    public Exception? Exception { get; private set; }
+
     private readonly Func<T> _action;
 
     public AsyncQuery(Func<T> action) {
@@ -14,16 +19,11 @@ public class AsyncQuery<T> : Query {
         _action = action;
     }
 
-    public T? Data { get; private set; }
-    public Exception? Exception { get; private set; }
-    public Status Status { get; private set; }
-
     public void Invoke() {
         try {
             Data = _action();
             Status = Status.SUCCESSFUL;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Exception = e;
             Status = Status.FAILED;
         }

@@ -8,6 +8,7 @@ using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 using v_rising_discord_bot_companion.query;
 using VampireCommandFramework;
+using VWorld = v_rising_discord_bot_companion.game.VWorld;
 
 namespace v_rising_discord_bot_companion;
 
