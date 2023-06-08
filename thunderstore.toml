@@ -3,7 +3,7 @@ schemaVersion = "0.0.1"
 
 [package]
 namespace = "DarkAtra"
-name = "v-rising-discord-bot-companion"
+name = "VRisingDiscordBotCompanion"
 description = "A companion mod for DarkAtra's v-rising-discord-bot."
 websiteUrl = "https://github.com/DarkAtra/v-rising-discord-bot-companion"
 containsNsfwContent = false

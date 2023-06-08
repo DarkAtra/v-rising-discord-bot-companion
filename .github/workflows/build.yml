@@ -7,6 +7,7 @@ on:
     paths:
       - '**.cs'
       - 'nuget.config'
+      - 'thunderstore.toml'
       - 'v-rising-discord-bot-companion.csproj'
 
 concurrency:
