@@ -1,13 +1,22 @@
-name: Verify Pull Request
+name: Build
 on:
-  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
     paths:
       - '**.cs'
       - 'nuget.config'
       - 'v-rising-discord-bot-companion.csproj'
 
+concurrency:
+  group: ci-main
+
 permissions:
-  contents: read
+  # used by semantic release
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
   verify:
