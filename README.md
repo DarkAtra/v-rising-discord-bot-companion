@@ -1,4 +1,4 @@
-﻿# V Rising Discord Bot Companion
+# V Rising Discord Bot Companion
 
 This BepInEx plugin for V Rising Servers adds additional http endpoints to the server's `ServerWebAPISystem`. This
 allows you to expose additional information about players, such as the current gear level.
