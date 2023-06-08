@@ -9,7 +9,7 @@
             "@semantic-release/exec",
             {
                 "prepareCmd": "npx dotnet-bump --no-commit --force ${nextRelease.version} && dotnet restore",
-                "publishCmd": "./publish.sh"
+                "publishCmd": "./publish.sh ${nextRelease.version}"
             }
         ],
         [

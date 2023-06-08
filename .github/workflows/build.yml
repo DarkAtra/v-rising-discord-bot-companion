@@ -58,6 +58,9 @@ jobs:
           dotnet-version: 6.x
           dotnet-quality: 'ga'
 
+      - name: Setup Thunderstore CLI
+        run: dotnet tool install -g tcli
+
       - name: Create new release
         uses: cycjimmy/semantic-release-action@v3
         with:
@@ -66,3 +69,4 @@ jobs:
             @semantic-release/exec
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          THUNDERSTORE_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}

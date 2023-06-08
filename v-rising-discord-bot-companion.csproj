@@ -16,17 +16,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.668" IncludeAssets="compile" />
-        <PackageReference Include="BepInEx.Core" Version="6.0.0-be.668" IncludeAssets="compile" />
-        <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
-        <PackageReference Include="VRising.Bloodstone" Version="0.1.4" />
-        <PackageReference Include="VRising.Unhollowed.Client" Version="0.6.5.57575071" />
-        <PackageReference Include="VRising.VampireCommandFramework" Version="0.8.0" />
+        <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.668" IncludeAssets="compile"/>
+        <PackageReference Include="BepInEx.Core" Version="6.0.0-be.668" IncludeAssets="compile"/>
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0"/>
+        <PackageReference Include="VRising.Bloodstone" Version="0.1.4"/>
+        <PackageReference Include="VRising.Unhollowed.Client" Version="0.6.5.57575071"/>
     </ItemGroup>
 
-    <Target Name="CopyDLLsToTargetServer" AfterTargets="Build">
-        <Message Text="Copying plugin dlls to dev server" Importance="High" />
-        <Copy SourceFiles="$(TargetDir)$(ProjectName).dll;$(TargetDir)$(ProjectName).pdb" DestinationFolder="$(PluginsPath)" />
-        <Message Text="Successfuly copied plugin dlls" Importance="High" />
+    <Target Name="CopyDLLsToBuildOutput" AfterTargets="Build">
+        <Message Text="Copying plugin dlls to build directory" Importance="High"/>
+        <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="build"/>
+        <Message Text="Successfuly copied plugin dlls" Importance="High"/>
     </Target>
 </Project>
