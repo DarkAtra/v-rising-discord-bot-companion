@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectM;
 using ProjectM.Network;
 using Unity.Collections;
 using Unity.Entities;
@@ -25,20 +24,13 @@ public static class VWorld {
     public static EntityManager EntityManager = Server.EntityManager;
     public static bool IsServer => Application.productName == "VRisingServer";
 
-    public static List<VPlayer> GetAllPlayerCharacters() {
+    public static List<VPlayer> GetAllPlayers() {
         return ListUtils.Convert(
                 EntityManager
                     .CreateEntityQuery(ComponentType.ReadOnly<User>())
                     .ToEntityArray(Allocator.Temp)
             )
-            .Where(userEntity => EntityManager.GetComponentData<User>(userEntity).LocalCharacter._Entity != Entity.Null)
-            .Select(userEntity => {
-                var user = EntityManager.GetComponentData<User>(userEntity);
-                return new VPlayer(user,
-                    userEntity,
-                    EntityManager.GetComponentData<PlayerCharacter>(user.LocalCharacter._Entity),
-                    user.LocalCharacter._Entity);
-            })
+            .Select(VPlayer.from)
             .ToList();
     }
 }

@@ -16,10 +16,7 @@ the [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot) to 
 
 ```http
 HTTP/1.1 200 OK
-Server: Mono-HTTPAPI/1.0
-Date: Fri, 02 Jun 2023 19:44:16 GMT
 Transfer-Encoding: chunked
-Keep-Alive: timeout=15,max=100
 Content-Type: application/json
 
 [
@@ -37,6 +34,34 @@ Content-Type: application/json
     "gearLevel": 84,
     "killedVBloods": []
   }
+]
+```
+
+### `/v-rising-discord-bot/player-activities`
+
+Returns a list of connect and disconnect events for the last 10 minutes. Intended to be used in conjunction with
+the [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot) to log connect and disconnect messages on discord.
+
+Note that this activity list is not persistent across server restarts.
+
+#### Example Response
+
+```http
+HTTP/1.1 200 OK
+Transfer-Encoding: chunked
+Content-Type: application/json
+
+[
+  {
+    "type": "CONNECTED",
+    "playerName": "Atra",
+    "occurred": "2023-01-01T00:00:00Z"
+  },
+  {
+    "type": "DISCONNECTED",
+    "playerName": "Atra",
+    "occurred": "2023-01-01T01:00:00Z"
+  },
 ]
 ```
 

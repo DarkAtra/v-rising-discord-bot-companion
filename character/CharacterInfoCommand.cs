@@ -9,24 +9,26 @@ public static class CharacterInfoCommand {
 
     public static List<CharacterResponse> GetCharacters() {
 
-        return VWorld.GetAllPlayerCharacters().Select(player => {
+        return VWorld.GetAllPlayers()
+            .Where(vPlayer => vPlayer.HasCharacter())
+            .Select(player => {
 
-            var clanEntity = player.User.ClanEntity._Entity;
+            var clanEntity = player.VUser.User.ClanEntity._Entity;
             string? clan = null;
             if (VWorld.EntityManager.HasComponent<ClanTeam>(clanEntity)) {
                 clan = VWorld.EntityManager.GetComponentData<ClanTeam>(clanEntity).Name.ToString();
             }
 
             var killedVBloods = new List<VBlood>();
-            var hasProgression = ProgressionUtility.TryGetProgressionEntity(VWorld.EntityManager, player.UserEntity, out var progressionEntity);
+            var hasProgression = ProgressionUtility.TryGetProgressionEntity(VWorld.EntityManager, player.VUser.UserEntity, out var progressionEntity);
             if (hasProgression) {
                 ListUtils.Convert(VWorld.EntityManager.GetBuffer<UnlockedVBlood>(progressionEntity))
                     .ForEach(vBlood => killedVBloods.Add((VBlood) vBlood.VBlood.GuidHash));
             }
 
             return new CharacterResponse(
-                Name: player.Character.Name.ToString(),
-                GearLevel: (int) VWorld.EntityManager.GetComponentData<Equipment>(player.CharacterEntity).GetFullLevel(),
+                Name: ((VCharacter) player.VCharacter!).Character.Name.ToString(),
+                GearLevel: (int) VWorld.EntityManager.GetComponentData<Equipment>(((VCharacter) player.VCharacter!).CharacterEntity).GetFullLevel(),
                 Clan: clan,
                 KilledVBloods: killedVBloods
             );
