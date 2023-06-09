@@ -20,7 +20,7 @@
         <PackageReference Include="BepInEx.Core" Version="6.0.0-be.668" IncludeAssets="compile"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0"/>
         <PackageReference Include="VRising.Bloodstone" Version="0.1.4"/>
-        <PackageReference Include="VRising.Unhollowed.Client" Version="0.6.5.57575071"/>
+        <PackageReference Include="VRising.Unhollowed.Client" Version="0.6.5.57575090"/>
     </ItemGroup>
 
     <Target Name="CopyDLLsToBuildOutput" AfterTargets="Build">
