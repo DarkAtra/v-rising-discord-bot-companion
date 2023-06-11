@@ -16,7 +16,9 @@
             "@semantic-release/git",
             {
                 "assets": [
-                    "v-rising-discord-bot-companion.csproj"
+                    [
+                        "*.csproj"
+                    ]
                 ]
             }
         ],
