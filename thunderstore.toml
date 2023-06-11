@@ -22,6 +22,6 @@ source = "./build/v-rising-discord-bot-companion.dll"
 target = "v-rising-discord-bot-companion.dll"
 
 [publish]
-repository = "https://thunderstore.io"
+repository = "https://v-rising.thunderstore.io"
 communities = ["v-rising"]
 categories = ["gloomrot-update", "mods", "server"]
