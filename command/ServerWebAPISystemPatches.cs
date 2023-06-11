@@ -10,6 +10,7 @@ using Il2CppSystem.Net;
 using Il2CppSystem.Text.RegularExpressions;
 using ProjectM;
 using ProjectM.Network;
+using v_rising_discord_bot_companion.activity;
 using v_rising_discord_bot_companion.character;
 using v_rising_discord_bot_companion.query;
 
@@ -35,6 +36,12 @@ public class ServerWebAPISystemPatches {
             new Regex("/v-rising-discord-bot/characters"),
             "GET",
             BuildAdapter(_ => CharacterInfoCommand.GetCharacters())
+        ));
+
+        __instance._HttpReceiveService.AddRoute(new HttpServiceReceiveThread.Route(
+            new Regex("/v-rising-discord-bot/player-activities"),
+            "GET",
+            BuildAdapter(_ => ServerBootstrapSystemPatches.getPlayerActivities())
         ));
     }
 
