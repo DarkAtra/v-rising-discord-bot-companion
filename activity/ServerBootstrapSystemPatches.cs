@@ -31,8 +31,6 @@ public class ServerBootstrapSystemPatches {
         NetConnectionId netConnectionId
     ) {
 
-        Plugin.Logger.LogInfo("OnUserConnected");
-
         var userIndex = __instance._NetEndPointToApprovedUserIndex[netConnectionId];
         var serverClient = __instance._ApprovedUsersLookup[userIndex];
         var userEntity = serverClient.UserEntity;
@@ -43,7 +41,7 @@ public class ServerBootstrapSystemPatches {
             return;
         }
 
-        Plugin.Logger.LogInfo($"OnUserConnected: {vPlayer.VUser.User.CharacterName.ToString()}");
+        Plugin.Logger.LogDebug($"OnUserConnected: {vPlayer.VUser.User.CharacterName.ToString()}");
 
         _playerActivities.Add(
             new PlayerActivity(
@@ -65,8 +63,6 @@ public class ServerBootstrapSystemPatches {
         string extraData
     ) {
 
-        Plugin.Logger.LogInfo("OnUserDisconnected");
-
         var userIndex = __instance._NetEndPointToApprovedUserIndex[netConnectionId];
         var serverClient = __instance._ApprovedUsersLookup[userIndex];
         var userEntity = serverClient.UserEntity;
@@ -77,7 +73,7 @@ public class ServerBootstrapSystemPatches {
             return;
         }
 
-        Plugin.Logger.LogInfo($"OnUserDisconnected: {vPlayer.VUser.User.CharacterName.ToString()}");
+        Plugin.Logger.LogDebug($"OnUserDisconnected: {vPlayer.VUser.User.CharacterName.ToString()}");
 
         _playerActivities.Add(
             new PlayerActivity(
@@ -100,11 +96,9 @@ public class ServerBootstrapSystemPatches {
         Nullable_Unboxed<float3> customSpawnPosition
     ) {
 
-        Plugin.Logger.LogInfo("SpawnCharacter");
-
         var vPlayer = VPlayer.from(user);
 
-        Plugin.Logger.LogInfo($"SpawnCharacter: {vPlayer.VUser.User.CharacterName.ToString()}");
+        Plugin.Logger.LogDebug($"SpawnCharacter: {vPlayer.VUser.User.CharacterName.ToString()}");
 
         _playerActivities.Add(
             new PlayerActivity(
