@@ -1,5 +1,9 @@
-﻿using ProjectM;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Bloodstone.API;
+using ProjectM;
 using ProjectM.Network;
+using Unity.Collections;
 using Unity.Entities;
 
 namespace v_rising_discord_bot_companion.game;
@@ -12,7 +16,7 @@ public readonly record struct VPlayer(
     public static VPlayer from(Entity userEntity) {
 
         var vUser = VUser.from(userEntity);
-        if (VWorld.EntityManager.GetComponentData<User>(userEntity).LocalCharacter._Entity == Entity.Null) {
+        if (VWorld.Server.EntityManager.GetComponentData<User>(userEntity).LocalCharacter._Entity == Entity.Null) {
             return new VPlayer(
                 VUser: vUser,
                 VCharacter: null
@@ -23,6 +27,15 @@ public readonly record struct VPlayer(
             VUser: vUser,
             VCharacter: game.VCharacter.from(vUser)
         );
+    }
+    public static List<VPlayer> GetAllPlayers() {
+        return ListUtils.Convert(
+                VWorld.Server.EntityManager
+                    .CreateEntityQuery(ComponentType.ReadOnly<User>())
+                    .ToEntityArray(Allocator.Temp)
+            )
+            .Select(from)
+            .ToList();
     }
 
     public bool HasCharacter() {
@@ -36,7 +49,7 @@ public readonly record struct VUser(
 ) {
 
     public static VUser from(Entity userEntity) {
-        var user = VWorld.EntityManager.GetComponentData<User>(userEntity);
+        var user = VWorld.Server.EntityManager.GetComponentData<User>(userEntity);
         return new VUser(
             User: user,
             UserEntity: userEntity
@@ -52,7 +65,7 @@ public readonly record struct VCharacter(
     public static VCharacter from(VUser vUser) {
         var characterEntity = vUser.User.LocalCharacter._Entity;
         return new VCharacter(
-            Character: VWorld.EntityManager.GetComponentData<PlayerCharacter>(characterEntity),
+            Character: VWorld.Server.EntityManager.GetComponentData<PlayerCharacter>(characterEntity),
             CharacterEntity: characterEntity
         );
     }
