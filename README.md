@@ -72,7 +72,7 @@ Please note that modding support for V Rising Gloomrot is still experimental. Pr
 
 1. Validate that the server has it's api enabled and a port configured. **It is not recommended to expose the api port to the internet.**
 2. [Install the latest version of BepInEx](https://github.com/decaprime/VRising-Modding/releases/tag/1.668.5) on your Gloomrot V Rising server.
-3. Download the [v-rising-discord-bot-companion.dll](https://github.com/DarkAtra/v-rising-discord-bot-companion/releases/tag/v0.1.6) or build it yourself by
+3. Download the [v-rising-discord-bot-companion.dll](https://github.com/DarkAtra/v-rising-discord-bot-companion/releases/tag/v0.3.2) or build it yourself by
    cloning this repository and running `dotnet build`.
 4. Download the [Bloodstone.dll](https://github.com/decaprime/Bloodstone/releases/tag/v0.1.4).
 5. Move all dlls into your server's BepInEx `plugins` folder.
