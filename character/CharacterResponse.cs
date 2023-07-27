@@ -110,7 +110,13 @@ public enum VBlood {
     [VBloodName("Nightmarshal Styx the Sunderer")]
     BATVAMPIRE = 1112948824,
     [VBloodName("Solarus the Immaculate")]
-    CHURCHOFLIGHT_PALADIN = -740796338
+    CHURCHOFLIGHT_PALADIN = -740796338,
+    [VBloodName("Adam the Firstborn")]
+    GLOOMROT_MONSTER = 1233988687,
+    [VBloodName("Gorecrusher the Behemoth")]
+    CURSED_MOUNTAINBEAST = -1936575244,
+    [VBloodName("The Winged Horror")]
+    MANTICORE = -393555055
 }
 
 public class VBloodConverter : JsonConverter<VBlood> {
