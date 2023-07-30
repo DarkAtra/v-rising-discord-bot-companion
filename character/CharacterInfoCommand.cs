@@ -30,7 +30,7 @@ public static class CharacterInfoCommand {
 
             return new CharacterResponse(
                 Name: ((VCharacter) player.VCharacter!).Character.Name.ToString(),
-                GearLevel: (int) entityManager.GetComponentData<Equipment>(((VCharacter) player.VCharacter!).CharacterEntity).GetFullLevel(),
+                GearLevel: ((VCharacter) player.VCharacter!).getGearLevel(),
                 Clan: clan,
                 KilledVBloods: killedVBloods
             );

@@ -12,6 +12,7 @@ using ProjectM;
 using ProjectM.Network;
 using v_rising_discord_bot_companion.activity;
 using v_rising_discord_bot_companion.character;
+using v_rising_discord_bot_companion.killfeed;
 using v_rising_discord_bot_companion.query;
 
 namespace v_rising_discord_bot_companion.command;
@@ -42,6 +43,12 @@ public class ServerWebAPISystemPatches {
             new Regex("/v-rising-discord-bot/player-activities"),
             "GET",
             BuildAdapter(_ => ServerBootstrapSystemPatches.getPlayerActivities())
+        ));
+
+        __instance._HttpReceiveService.AddRoute(new HttpServiceReceiveThread.Route(
+            new Regex("/v-rising-discord-bot/pvp-kills"),
+            "GET",
+            BuildAdapter(_ => DeathEventListenerSystemPatches.getPvpKills())
         ));
     }
 

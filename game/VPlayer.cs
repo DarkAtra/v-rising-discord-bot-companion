@@ -28,6 +28,7 @@ public readonly record struct VPlayer(
             VCharacter: game.VCharacter.from(vUser)
         );
     }
+
     public static List<VPlayer> GetAllPlayers() {
         return ListUtils.Convert(
                 VWorld.Server.EntityManager
@@ -68,5 +69,9 @@ public readonly record struct VCharacter(
             Character: VWorld.Server.EntityManager.GetComponentData<PlayerCharacter>(characterEntity),
             CharacterEntity: characterEntity
         );
+    }
+
+    public int getGearLevel() {
+        return (int) VWorld.Server.EntityManager.GetComponentData<Equipment>(CharacterEntity).GetFullLevel();
     }
 }
