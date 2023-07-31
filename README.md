@@ -6,6 +6,10 @@ with [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot#v-r
 
 It is recommended to **not** expose the server's api port to the internet.
 
+## Support
+
+If you have questions or need support, feel free to join [this discord server](https://discord.gg/KcMcYKa6Nt).
+
 ## Endpoints
 
 ### `/v-rising-discord-bot/characters`
