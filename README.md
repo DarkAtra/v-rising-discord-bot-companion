@@ -43,7 +43,7 @@ Content-Type: application/json
 Returns a list of connect and disconnect events for the last 10 minutes. Intended to be used in conjunction with
 the [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot) to log connect and disconnect messages on discord.
 
-Note that this activity list is not persistent across server restarts.
+Note that this is not persistent across server restarts.
 
 #### Example Response
 
@@ -62,7 +62,36 @@ Content-Type: application/json
     "type": "DISCONNECTED",
     "playerName": "Atra",
     "occurred": "2023-01-01T01:00:00Z"
-  },
+  }
+]
+```
+
+### `/v-rising-discord-bot/pvp-kills`
+
+Returns the most recent pvp kills. Intended to be used in conjunction with the [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot) to
+display a kill feed on discord.
+
+Note that this is not persistent across server restarts.
+
+#### Example Response
+
+```http
+HTTP/1.1 200 OK
+Transfer-Encoding: chunked
+Content-Type: application/json
+
+[
+  {
+    "killer": {
+      "name": "Atra",
+      "gearLevel": 71
+    },
+    "victim": {
+      "name": "Testi",
+      "gearLevel": 11
+    },
+    "occurred": "2023-01-01T00:00:00Z"
+  }
 ]
 ```
 
