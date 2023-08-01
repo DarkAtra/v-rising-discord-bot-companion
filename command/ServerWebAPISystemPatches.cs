@@ -48,7 +48,7 @@ public class ServerWebAPISystemPatches {
         __instance._HttpReceiveService.AddRoute(new HttpServiceReceiveThread.Route(
             new Regex("/v-rising-discord-bot/pvp-kills"),
             "GET",
-            BuildAdapter(_ => DeathEventListenerSystemPatches.getPvpKills())
+            BuildAdapter(_ => VampireDownedServerEventSystemPatches.getPvpKills())
         ));
     }
 
