@@ -64,7 +64,10 @@ public readonly record struct VCharacter(
 ) {
 
     public static VCharacter from(VUser vUser) {
-        var characterEntity = vUser.User.LocalCharacter._Entity;
+        return from(vUser.User.LocalCharacter._Entity);
+    }
+
+    public static VCharacter from(Entity characterEntity) {
         return new VCharacter(
             Character: VWorld.Server.EntityManager.GetComponentData<PlayerCharacter>(characterEntity),
             CharacterEntity: characterEntity

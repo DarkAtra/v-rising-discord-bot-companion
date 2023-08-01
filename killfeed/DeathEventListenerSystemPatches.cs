@@ -45,21 +45,21 @@ public class DeathEventListenerSystemPatches {
             return;
         }
 
-        var killer = VPlayer.from(deathEvent.Killer);
-        var victim = VPlayer.from(deathEvent.Died);
-
-        if (!killer.HasCharacter() || !victim.HasCharacter()) {
+        if (!VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(deathEvent.Killer) || !VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(deathEvent.Died)) {
             return;
         }
 
+        var killer = VCharacter.from(deathEvent.Killer);
+        var victim = VCharacter.from(deathEvent.Died);
+
         _pvpKills.Add(new PvpKill(
             Killer: new Player(
-                Name: ((VCharacter) killer.VCharacter!).Character.Name.ToString(),
-                GearLevel: ((VCharacter) killer.VCharacter!).getGearLevel()
+                Name: killer.Character.Name.ToString(),
+                GearLevel: killer.getGearLevel()
             ),
             Victim: new Player(
-                Name: ((VCharacter) victim.VCharacter!).Character.Name.ToString(),
-                GearLevel: ((VCharacter) victim.VCharacter!).getGearLevel()
+                Name: victim.Character.Name.ToString(),
+                GearLevel: victim.getGearLevel()
             ),
             Occurred: DateTime.UtcNow
         ));
