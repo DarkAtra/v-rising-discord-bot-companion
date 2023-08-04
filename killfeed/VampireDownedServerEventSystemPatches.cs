@@ -42,8 +42,8 @@ public class VampireDownedServerEventSystemPatches {
     private static void handleDownedEntity(Entity entity) {
 
         VampireDownedServerEventSystem.TryFindRootOwner(entity, 1, VWorld.Server.EntityManager, out var victimEntity);
-        var source = VWorld.Server.EntityManager.GetComponentData<VampireDownedBuff>(entity).Source;
-        VampireDownedServerEventSystem.TryFindRootOwner(source, 1, VWorld.Server.EntityManager, out var killerEntity);
+        VWorld.Server.EntityManager.TryGetComponentData<VampireDownedBuff>(entity, out var buff);
+        VampireDownedServerEventSystem.TryFindRootOwner(buff.Source, 1, VWorld.Server.EntityManager, out var killerEntity);
 
         if (!VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(killerEntity)
             || !VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(victimEntity) || victimEntity.Equals(killerEntity)) {
