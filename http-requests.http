@@ -1,0 +1,8 @@
+﻿### Get player characters
+GET http://localhost:25570/v-rising-discord-bot/characters
+
+### Get player activities
+GET http://localhost:25570/v-rising-discord-bot/player-activities
+
+### Get pvp kills
+GET http://localhost:25570/v-rising-discord-bot/pvp-kills
