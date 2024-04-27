@@ -12,3 +12,15 @@ tab_width = 4
 
 [{*.yaml,*.yml,*.md}]
 indent_size = 2
+
+[*.cs]
+csharp_new_line_before_open_brace = none
+csharp_new_line_before_else = false
+csharp_new_line_before_catch = false
+csharp_new_line_before_finally = false
+csharp_space_around_declaration_statements = ignore
+csharp_space_after_cast = true
+resharper_csharp_place_attribute_on_same_line = never
+resharper_place_field_attribute_on_same_line = never
+resharper_place_method_attribute_on_same_line = never
+resharper_remove_blank_lines_near_braces_in_code = false

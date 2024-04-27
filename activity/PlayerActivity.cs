@@ -16,7 +16,6 @@ public enum ActivityType {
     DISCONNECTED
 }
 
-
 public class ActivityTypeConverter : JsonConverter<ActivityType> {
 
     public override ActivityType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {

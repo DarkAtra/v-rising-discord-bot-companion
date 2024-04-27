@@ -14,26 +14,26 @@ public static class CharacterInfoCommand {
             .Where(vPlayer => vPlayer.HasCharacter())
             .Select(player => {
 
-            var clanEntity = player.VUser.User.ClanEntity._Entity;
-            string? clan = null;
-            var entityManager = VWorld.Server.EntityManager;
-            if (entityManager.HasComponent<ClanTeam>(clanEntity)) {
-                clan = entityManager.GetComponentData<ClanTeam>(clanEntity).Name.ToString();
-            }
+                var clanEntity = player.VUser.User.ClanEntity._Entity;
+                string? clan = null;
+                var entityManager = VWorld.Server.EntityManager;
+                if (entityManager.HasComponent<ClanTeam>(clanEntity)) {
+                    clan = entityManager.GetComponentData<ClanTeam>(clanEntity).Name.ToString();
+                }
 
-            var killedVBloods = new List<VBlood>();
-            var hasProgression = ProgressionUtility.TryGetProgressionEntity(entityManager, player.VUser.UserEntity, out var progressionEntity);
-            if (hasProgression) {
-                ListUtils.Convert(entityManager.GetBuffer<UnlockedVBlood>(progressionEntity))
-                    .ForEach(vBlood => killedVBloods.Add((VBlood) vBlood.VBlood.GuidHash));
-            }
+                var killedVBloods = new List<VBlood>();
+                var hasProgression = ProgressionUtility.TryGetProgressionEntity(entityManager, player.VUser.UserEntity, out var progressionEntity);
+                if (hasProgression) {
+                    ListUtils.Convert(entityManager.GetBuffer<UnlockedVBlood>(progressionEntity))
+                        .ForEach(vBlood => killedVBloods.Add((VBlood)vBlood.VBlood.GuidHash));
+                }
 
-            return new CharacterResponse(
-                Name: ((VCharacter) player.VCharacter!).Character.Name.ToString(),
-                GearLevel: ((VCharacter) player.VCharacter!).getGearLevel(),
-                Clan: clan,
-                KilledVBloods: killedVBloods
-            );
-        }).ToList();
+                return new CharacterResponse(
+                    Name: ((VCharacter)player.VCharacter!).Character.Name.ToString(),
+                    GearLevel: ((VCharacter)player.VCharacter!).getGearLevel(),
+                    Clan: clan,
+                    KilledVBloods: killedVBloods
+                );
+            }).ToList();
     }
 }
