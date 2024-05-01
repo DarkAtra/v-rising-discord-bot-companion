@@ -6,6 +6,9 @@ with [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot#v-r
 
 It is recommended to **not** expose the server's api port to the internet.
 
+> [!NOTE]
+> This server side mod will likely break with the upcoming content update on may 8th. Progress is tracked in https://github.com/DarkAtra/v-rising-discord-bot-companion/issues/16.
+
 ## Support
 
 If you have questions or need support, feel free to join [this discord server](https://discord.gg/KcMcYKa6Nt).
