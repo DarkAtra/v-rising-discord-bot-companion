@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <AssemblyName>v-rising-discord-bot-companion</AssemblyName>
-        <Description>A companion mod for DarkAtra's v-rising-discord-bot.</Description>
-        <Version>0.3.3</Version>
+        <Description>A companion mod for DarkAtra/v-rising-discord-bot.</Description>
+        <Version>0.4.0</Version>
 
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
@@ -16,8 +16,8 @@
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.668" IncludeAssets="compile"/>
         <PackageReference Include="BepInEx.Core" Version="6.0.0-be.668" IncludeAssets="compile"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0"/>
-        <PackageReference Include="VRising.Bloodstone" Version="0.1.6"/>
-        <PackageReference Include="VRising.Unhollowed.Client" Version="0.6.10.631470001"/>
+        <PackageReference Include="VRising.Bloodstone" Version="0.2.0"/>
+        <PackageReference Include="VRising.Unhollowed.Client" Version="1.0.0.792660001"/>
     </ItemGroup>
 
     <Target Name="CopyDLLsToBuildOutput" AfterTargets="Build">

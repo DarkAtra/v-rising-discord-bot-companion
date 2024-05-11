@@ -12,7 +12,7 @@ namespace v_rising_discord_bot_companion.killfeed;
 [HarmonyPatch(typeof(VampireDownedServerEventSystem))]
 public class VampireDownedServerEventSystemPatches {
 
-    private static readonly List<PvpKill> _pvpKills = new();
+    private readonly static List<PvpKill> _pvpKills = new();
 
     public static List<PvpKill> getPvpKills() {
         removeExpiredPvpKills();
@@ -27,11 +27,11 @@ public class VampireDownedServerEventSystemPatches {
     [HarmonyPatch("OnUpdate")]
     public static void Postfix(VampireDownedServerEventSystem __instance) {
 
-        if (__instance.__OnUpdate_LambdaJob0_entityQuery == null) {
+        if (__instance.__query_1174204813_0 == null) {
             return;
         }
 
-        var entities = __instance.__OnUpdate_LambdaJob0_entityQuery.ToEntityArray(Allocator.Temp);
+        var entities = __instance.__query_1174204813_0.ToEntityArray(Allocator.Temp);
         foreach (var entity in entities) {
             handleDownedEntity(entity);
         }
@@ -46,7 +46,8 @@ public class VampireDownedServerEventSystemPatches {
         VampireDownedServerEventSystem.TryFindRootOwner(buff.Source, 1, VWorld.Server.EntityManager, out var killerEntity);
 
         if (!VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(killerEntity)
-            || !VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(victimEntity) || victimEntity.Equals(killerEntity)) {
+            || !VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(victimEntity)
+            || victimEntity.Equals(killerEntity)) {
             return;
         }
 

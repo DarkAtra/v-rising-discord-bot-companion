@@ -50,8 +50,6 @@ jobs:
       - verify
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -60,7 +58,7 @@ jobs:
           dotnet-quality: 'ga'
 
       - name: Setup Thunderstore CLI
-        run: dotnet tool install -g tcli
+        run: dotnet tool install --global tcli
 
       - name: Create new release
         uses: cycjimmy/semantic-release-action@v3
