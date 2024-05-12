@@ -7,8 +7,3 @@ public readonly record struct PvpKill(
     Player Victim,
     DateTime Occurred
 );
-
-public readonly record struct Player(
-    string Name,
-    int GearLevel
-);
