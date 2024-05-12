@@ -5,4 +5,4 @@ if [ -z "$1" ]; then
 fi
 
 dotnet build --no-restore --configuration Release
-tcli publish --package-version $1 --token $THUNDERSTORE_TOKEN
+#tcli publish --package-version $1 --token $THUNDERSTORE_TOKEN
