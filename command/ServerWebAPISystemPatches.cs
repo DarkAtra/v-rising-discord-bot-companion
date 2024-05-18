@@ -20,7 +20,7 @@ namespace v_rising_discord_bot_companion.command;
 [HarmonyPatch(typeof(ServerWebAPISystem))]
 public class ServerWebAPISystemPatches {
 
-    private readonly static JsonSerializerOptions _serializeOptions = new() {
+    private static readonly JsonSerializerOptions _serializeOptions = new() {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
