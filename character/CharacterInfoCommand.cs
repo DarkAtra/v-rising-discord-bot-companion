@@ -24,13 +24,17 @@ public static class CharacterInfoCommand {
                 var killedVBloods = new List<VBlood>();
                 var hasProgression = ProgressionUtility.TryGetProgressionEntity(entityManager, player.VUser.UserEntity, out var progressionEntity);
                 if (hasProgression) {
-                    ListUtils.Convert(entityManager.GetBuffer<UnlockedVBlood>(progressionEntity))
-                        .ForEach(vBlood => killedVBloods.Add((VBlood)vBlood.VBlood.GuidHash));
+                    foreach (var unlockedVBlood in entityManager.GetBuffer<UnlockedVBlood>(progressionEntity)) {
+                        VBlood? vBlood = (VBlood?) unlockedVBlood.VBlood.GuidHash;
+                        if (vBlood != null) {
+                            killedVBloods.Add((VBlood) vBlood);
+                        }
+                    }
                 }
 
                 return new CharacterResponse(
-                    Name: ((VCharacter)player.VCharacter!).Character.Name.ToString(),
-                    GearLevel: ((VCharacter)player.VCharacter!).getGearLevel(),
+                    Name: ((VCharacter) player.VCharacter!).Character.Name.ToString(),
+                    GearLevel: ((VCharacter) player.VCharacter!).getGearLevel(),
                     Clan: clan,
                     KilledVBloods: killedVBloods
                 );

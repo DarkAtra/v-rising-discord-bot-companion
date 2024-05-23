@@ -21,6 +21,7 @@ csharp_new_line_before_finally = false
 csharp_space_around_declaration_statements = ignore
 csharp_space_after_cast = true
 csharp_preferred_modifier_order = public, private, protected, internal, file, new, static, abstract, virtual, sealed, readonly, override, extern, unsafe, volatile, async, required
+resharper_space_after_cast = true
 resharper_csharp_place_attribute_on_same_line = never
 resharper_place_field_attribute_on_same_line = never
 resharper_place_method_attribute_on_same_line = never
