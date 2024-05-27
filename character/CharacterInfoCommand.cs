@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bloodstone.API;
 using ProjectM;
@@ -25,9 +26,8 @@ public static class CharacterInfoCommand {
                 var hasProgression = ProgressionUtility.TryGetProgressionEntity(entityManager, player.VUser.UserEntity, out var progressionEntity);
                 if (hasProgression) {
                     foreach (var unlockedVBlood in entityManager.GetBuffer<UnlockedVBlood>(progressionEntity)) {
-                        VBlood? vBlood = (VBlood?) unlockedVBlood.VBlood.GuidHash;
-                        if (vBlood != null) {
-                            killedVBloods.Add((VBlood) vBlood);
+                        if (Enum.IsDefined(typeof(VBlood), unlockedVBlood.VBlood.GuidHash)) {
+                            killedVBloods.Add((VBlood) unlockedVBlood.VBlood.GuidHash);
                         }
                     }
                 }
