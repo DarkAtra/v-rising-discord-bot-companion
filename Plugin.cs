@@ -17,7 +17,7 @@ namespace v_rising_discord_bot_companion;
 [Reloadable]
 public class Plugin : BasePlugin {
 
-    public static ManualLogSource Logger = null!;
+    public static ManualLogSource Logger { get; private set; } = null!;
     public static Plugin Instance { get; private set; }
     private Harmony? _harmony;
     private Component? _queryDispatcher;
