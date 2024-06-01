@@ -76,7 +76,7 @@ public class Plugin : BasePlugin {
 
         var basicAuthUsers = new List<BasicAuthUser>();
         foreach (var basicAuthUser in _basicAuthUsers.Value.Split(",")) {
-            var parts = basicAuthUser.Split(":");
+            var parts = basicAuthUser.Split(":", 2);
             if (parts.Length == 2) {
                 basicAuthUsers.Add(
                     new BasicAuthUser(
