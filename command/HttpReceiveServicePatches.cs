@@ -26,7 +26,7 @@ public class HttpReceiveServicePatches {
         }
 
         __result = IsAuthorized((BasicAuthUser) currentBasicAuthUser);
-        return false;
+        return __result;
     }
 
     private static BasicAuthUser? ParseBasicAuthUser(HttpListenerContext context) {
