@@ -6,3 +6,31 @@ GET http://localhost:25570/v-rising-discord-bot/player-activities
 
 ### Get pvp kills
 GET http://localhost:25570/v-rising-discord-bot/pvp-kills
+
+### Metrics
+GET http://localhost:25570/metrics
+
+### Console
+GET http://localhost:25570/console/v1?input=sendserverannouncement some message
+
+### Messages
+POST http://localhost:25570/api/message/v1
+Content-Type: application/json
+
+{
+    "message": "the actual message"
+}
+
+### Shutdown
+POST http://localhost:25570/api/shutdown/v1
+Content-Type: application/json
+
+{
+    "shutdown": true
+}
+
+### Save
+POST http://localhost:25570/api/save/v1
+Content-Type: application/json
+
+{}

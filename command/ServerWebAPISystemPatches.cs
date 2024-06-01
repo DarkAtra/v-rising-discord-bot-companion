@@ -30,6 +30,7 @@ public class ServerWebAPISystemPatches {
     public static void OnCreate(ServerWebAPISystem __instance) {
 
         if (!SettingsManager.ServerHostSettings.API.Enabled) {
+            Plugin.Logger.LogInfo($"HTTP API is not enabled.");
             return;
         }
 
@@ -50,6 +51,8 @@ public class ServerWebAPISystemPatches {
             "GET",
             BuildAdapter(_ => VampireDownedServerEventSystemPatches.getPvpKills())
         ));
+
+        Plugin.Logger.LogInfo($"Added v-rising-discord-bot endpoints.");
     }
 
     private static HttpServiceReceiveThread.RequestHandler BuildAdapter(Func<HttpListenerContext, object> commandHandler) {
