@@ -108,7 +108,7 @@ public enum VBlood {
     UNDEAD_ZEALOUSCULTIST = -1208888966,
 
     [VBloodName("Willfred the Werewolf Chief")]
-    WEREWOLFCHIEFTAIN = -1007062401,
+    WEREWOLFCHIEFTAIN = -1505705712,
 
     [VBloodName("Albert the Duke of Balaton")]
     CURSED_TOADKING = -203043163,
