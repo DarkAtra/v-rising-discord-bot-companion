@@ -34,3 +34,13 @@ POST http://localhost:25570/api/save/v1
 Content-Type: application/json
 
 {}
+
+### Discord Webhook
+POST https://discord.com/api/webhooks/xxx/xxx
+Content-Type: application/json
+
+{
+    "username": "Jarvis",
+    "avatar_url": "https://raw.githubusercontent.com/DarkAtra/v-rising-discord-bot/main/docs/assets/icon.png",
+    "content": "Atra: Test"
+}
