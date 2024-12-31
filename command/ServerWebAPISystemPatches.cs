@@ -14,6 +14,7 @@ using v_rising_discord_bot_companion.activity;
 using v_rising_discord_bot_companion.character;
 using v_rising_discord_bot_companion.killfeed;
 using v_rising_discord_bot_companion.query;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace v_rising_discord_bot_companion.command;
 
@@ -50,6 +51,31 @@ public class ServerWebAPISystemPatches {
             new Regex("/v-rising-discord-bot/pvp-kills"),
             "GET",
             BuildAdapter(_ => VampireDownedServerEventSystemPatches.getPvpKills())
+        ));
+
+        __instance._HttpReceiveService.AddRoute(new HttpServiceReceiveThread.Route(
+            new Regex("/v-rising-discord-bot/events"),
+            "GET",
+            DelegateSupport.ConvertDelegate<HttpServiceReceiveThread.RequestHandler>(
+                new Action<HttpListenerContext>(context => {
+
+                    Plugin.Logger.LogInfo($"Incoming connection for server sent events...");
+
+                    context.Response.ContentType = "text/event-stream";
+
+                    // FIXME: this is blocking the thread and thus no new http connections are accepted
+                    while (context.Connection.sock.Connected) {
+
+                        Plugin.Logger.LogInfo($"Sending test events...");
+
+                        var responseWriter = new StreamWriter(context.Response.OutputStream);
+                        responseWriter.Write("data: test\n\n"); // events are separated by two newlines
+                        responseWriter.Flush();
+
+                        Thread.Sleep(2000);
+                    }
+                })
+            )!
         ));
 
         Plugin.Logger.LogInfo($"Added v-rising-discord-bot endpoints.");

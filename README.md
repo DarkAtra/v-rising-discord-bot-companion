@@ -9,3 +9,13 @@ with [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot#v-r
 ## Support
 
 If you have questions or need support, feel free to join [this discord server](https://discord.gg/KcMcYKa6Nt).
+
+## Build
+
+Build the project using the following command:
+
+```
+dotnet build --no-restore --configuration Release
+```
+
+The resulting dll can be found in the `build` directory.
