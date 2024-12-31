@@ -12,7 +12,7 @@ namespace v_rising_discord_bot_companion.killfeed;
 [HarmonyPatch(typeof(VampireDownedServerEventSystem))]
 public class VampireDownedServerEventSystemPatches {
 
-    private static readonly List<PvpKill> _pvpKills = new();
+    private static readonly List<PvpKill> _pvpKills = [];
 
     public static List<PvpKill> getPvpKills() {
         removeExpiredPvpKills();

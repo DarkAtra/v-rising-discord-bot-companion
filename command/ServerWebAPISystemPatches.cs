@@ -66,7 +66,7 @@ public class ServerWebAPISystemPatches {
 
                 object responseData;
                 if (commandResponse.Status is Status.FAILED or Status.PENDING) {
-                    Plugin.Logger.LogInfo($"Request with url '{context.Request.Url.ToString()}' failed with message: {commandResponse.Exception?.Message}");
+                    Plugin.Logger.LogError($"Request with url '{context.Request.Url.ToString()}' failed with message: {commandResponse.Exception?.Message}");
                     context.Response.StatusCode = 500;
                     responseData = new Problem(
                         Type: "about:blank",

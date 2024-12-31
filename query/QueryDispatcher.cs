@@ -8,22 +8,23 @@ public class QueryDispatcher : MonoBehaviour {
 
     public static QueryDispatcher Instance = null!;
 
-    private readonly Queue<Query> _pendingQueries = new();
+    private readonly Queue<AsyncQuery> _pendingQueries = new();
+
+    public AsyncQuery Dispatch(Func<object> query) {
+        var commandResponse = new AsyncQuery(query);
+        _pendingQueries.Enqueue(commandResponse);
+        return commandResponse;
+    }
 
     private void Awake() {
         Instance = this;
     }
 
     private void Update() {
-        if (_pendingQueries.Count > 0) {
-            var pendingCommand = _pendingQueries.Dequeue();
-            pendingCommand.Invoke();
+        if (_pendingQueries.Count <= 0) {
+            return;
         }
-    }
-
-    public AsyncQuery<T> Dispatch<T>(Func<T> query) {
-        var commandResponse = new AsyncQuery<T>(query);
-        _pendingQueries.Enqueue(commandResponse);
-        return commandResponse;
+        var pendingCommand = _pendingQueries.Dequeue();
+        pendingCommand.Invoke();
     }
 }
