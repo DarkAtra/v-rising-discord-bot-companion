@@ -3,7 +3,10 @@
 namespace v_rising_discord_bot_companion;
 
 public readonly record struct PluginConfig(
-    List<BasicAuthUser> BasicAuthUsers
+    List<BasicAuthUser> BasicAuthUsers,
+    string? DiscordWebhookUrl,
+    string DiscordWebhookUsername,
+    string DiscordWebhookAvatarUrl
 );
 
 public readonly record struct BasicAuthUser(
