@@ -4,7 +4,7 @@
         <Description>A companion mod for DarkAtra/v-rising-discord-bot.</Description>
         <Version>0.4.1</Version>
 
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>

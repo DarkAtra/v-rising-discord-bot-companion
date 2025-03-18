@@ -5,9 +5,11 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using Bloodstone.API;
+using Bloodstone.Hooks;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
+using v_rising_discord_bot_companion.chat;
 using v_rising_discord_bot_companion.query;
 
 namespace v_rising_discord_bot_companion;
@@ -24,6 +26,9 @@ public class Plugin : BasePlugin {
 
     private PluginConfig? _pluginConfig;
     private ConfigEntry<string> _basicAuthUsers;
+    private ConfigEntry<string?> _discordWebhookUrl;
+    private ConfigEntry<string> _discordWebhookUsername;
+    private ConfigEntry<string> _discordWebhookAvatarUrl;
 
     public Plugin() {
 
@@ -36,6 +41,24 @@ public class Plugin : BasePlugin {
             "",
             "A list of comma separated username:password entries that are allowed to query the HTTP API."
         );
+        _discordWebhookUrl = Config.Bind<string?>(
+            "Discord",
+            "WebhookUrl",
+            null,
+            "The discord webhook url to post chat messages to."
+        );
+        _discordWebhookUsername = Config.Bind<string>(
+            "Discord",
+            "WebhookUsername",
+            "Jarvis",
+            "The username to use when posting messages to discord."
+        );
+        _discordWebhookAvatarUrl = Config.Bind(
+            "Discord",
+            "WebhookAvatarUrl",
+            "https://raw.githubusercontent.com/DarkAtra/v-rising-discord-bot/main/docs/assets/icon.png",
+            "The url to the avatar image for the discord webhook."
+        );
     }
 
     public override void Load() {
@@ -44,7 +67,6 @@ public class Plugin : BasePlugin {
             Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} must be installed on the server side.");
             return;
         }
-
 
         // Plugin startup logic
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} is loaded!");
@@ -56,9 +78,17 @@ public class Plugin : BasePlugin {
         // Harmony patching
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         _harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+        if (GetPluginConfig().DiscordWebhookUrl != null) {
+            Logger.LogInfo("Configuring DiscordChatSystem.");
+            Chat.OnChatMessage += DiscordChatSystem.HandleChatEvent;
+        }
     }
 
     public override bool Unload() {
+        if (_pluginConfig?.DiscordWebhookUrl != null) {
+            Chat.OnChatMessage -= DiscordChatSystem.HandleChatEvent;
+        }
         _harmony?.UnpatchSelf();
         if (_queryDispatcher != null) {
             Object.Destroy(_queryDispatcher);
@@ -88,7 +118,10 @@ public class Plugin : BasePlugin {
         }
 
         return new PluginConfig(
-            BasicAuthUsers: basicAuthUsers
+            BasicAuthUsers: basicAuthUsers,
+            DiscordWebhookUrl: _discordWebhookUrl.Value,
+            DiscordWebhookUsername: _discordWebhookUsername.Value,
+            DiscordWebhookAvatarUrl: _discordWebhookAvatarUrl.Value
         );
     }
 }
