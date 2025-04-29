@@ -4,7 +4,6 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
-using Bloodstone.API;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
@@ -13,8 +12,6 @@ using v_rising_discord_bot_companion.query;
 namespace v_rising_discord_bot_companion;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[BepInDependency("gg.deca.Bloodstone")]
-[Reloadable]
 public class Plugin : BasePlugin {
 
     public static ManualLogSource Logger { get; private set; } = null!;
