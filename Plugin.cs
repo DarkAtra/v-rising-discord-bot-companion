@@ -42,7 +42,6 @@ public class Plugin : BasePlugin {
             return;
         }
 
-
         // Plugin startup logic
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} is loaded!");
 
