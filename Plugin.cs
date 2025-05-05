@@ -45,7 +45,7 @@ public class Plugin : BasePlugin {
         // Plugin startup logic
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} version {MyPluginInfo.PLUGIN_VERSION} is loaded!");
 
-        // inject components
+        // Inject components
         ClassInjector.RegisterTypeInIl2Cpp<QueryDispatcher>();
         _queryDispatcher = AddComponent<QueryDispatcher>();
 
@@ -74,12 +74,16 @@ public class Plugin : BasePlugin {
         foreach (var basicAuthUser in _basicAuthUsers.Value.Split(",")) {
             var parts = basicAuthUser.Split(":", 2);
             if (parts.Length == 2) {
-                basicAuthUsers.Add(
-                    new BasicAuthUser(
-                        Username: parts[0].Trim(),
-                        Password: parts[1].Trim()
-                    )
-                );
+                var username = parts[0].Trim();
+                var password = parts[1].Trim();
+                if (username.Length > 0 && password.Length > 0) {
+                    basicAuthUsers.Add(
+                        new BasicAuthUser(
+                            Username: username,
+                            Password: password
+                        )
+                    );
+                }
             }
         }
 
