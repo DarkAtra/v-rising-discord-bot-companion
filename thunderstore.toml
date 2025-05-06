@@ -25,4 +25,4 @@ repository = "https://thunderstore.io"
 communities = ["v-rising"]
 
 [publish.categories]
-v-rising = ["gloomrot-update", "mods", "server"]
+v-rising = ["oakveil-update", "mods", "server"]
