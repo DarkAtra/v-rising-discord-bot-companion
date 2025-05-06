@@ -31,8 +31,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.36'
-          dotnet-quality: 'ga'
+          dotnet-version: '8.0.408'
 
       - name: Restore Dependencies
         run: dotnet restore
@@ -54,8 +53,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.x
-          dotnet-quality: 'ga'
+          dotnet-version: '8.0.408'
 
       - name: Setup Thunderstore CLI
         run: dotnet tool install --global tcli
