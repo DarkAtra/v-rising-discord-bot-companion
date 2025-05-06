@@ -175,4 +175,25 @@ public enum VBlood {
 
     [VBloodName("Simon Belmont")]
     VHUNTER = 336560131,
+
+    [VBloodName("Sir Erwin the Gallant Cavalier")]
+    MILITIA_FABIAN = 619948378,
+
+    [VBloodName("Gaius The Cursed Champion")]
+    UNDEAD_ARENA_CHAMPION = -753453016,
+
+    [VBloodName("Stavros the Carver")]
+    BLACKFANG_CARVER = -1669199769,
+
+    [VBloodName("Jakira the Shadow Huntress")]
+    BLACKFANG_LIVITH = -1383529374,
+
+    [VBloodName("Lucile the Venom Alchemist")]
+    BLACKFANG_LUCIE = 1295855316,
+
+    [VBloodName("Dantos the Forgebinder")]
+    BLACKFANG_VALYR = 173259239,
+
+    [VBloodName("Megara the Serpent Queen")]
+    BLACKFANG_MORGANA = 591725925
 }
