@@ -2,7 +2,7 @@
     <PropertyGroup>
         <AssemblyName>v-rising-discord-bot-companion</AssemblyName>
         <Description>A companion mod for DarkAtra/v-rising-discord-bot.</Description>
-        <Version>0.7.0</Version>
+        <Version>0.1.0</Version>
 
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
