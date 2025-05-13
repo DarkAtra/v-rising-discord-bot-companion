@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using HarmonyLib;
-using Il2CppSystem;
 using ProjectM;
 using Stunlock.Network;
-using Unity.Entities;
-using Unity.Mathematics;
 using v_rising_discord_bot_companion.game;
 using DateTime = System.DateTime;
 
@@ -86,28 +83,28 @@ public class ServerBootstrapSystemPatches {
         removeExpiredPlayerActivities();
     }
 
-    [HarmonyPrefix]
-    [HarmonyPatch("SpawnCharacter")]
-    public static void SpawnCharacter(
-        ServerBootstrapSystem __instance,
-        EntityCommandBuffer commandBuffer,
-        Entity prefab,
-        Entity user,
-        Nullable_Unboxed<float3> customSpawnPosition
-    ) {
-
-        var vPlayer = VPlayer.from(user);
-
-        Plugin.Logger.LogDebug($"SpawnCharacter: {vPlayer.VUser.User.CharacterName.ToString()}");
-
-        _playerActivities.Add(
-            new PlayerActivity(
-                Type: ActivityType.CONNECTED,
-                PlayerName: vPlayer.VUser.User.CharacterName.ToString(),
-                Occurred: DateTime.UtcNow
-            )
-        );
-
-        removeExpiredPlayerActivities();
-    }
+    // [HarmonyPrefix]
+    // [HarmonyPatch("SpawnCharacter")]
+    // public static void SpawnCharacter(
+    //     ServerBootstrapSystem __instance,
+    //     EntityCommandBuffer commandBuffer,
+    //     Entity prefab,
+    //     Entity user,
+    //     Nullable_Unboxed<float3> customSpawnPosition
+    // ) {
+    //
+    //     var vPlayer = VPlayer.from(user);
+    //
+    //     Plugin.Logger.LogDebug($"SpawnCharacter: {vPlayer.VUser.User.CharacterName.ToString()}");
+    //
+    //     _playerActivities.Add(
+    //         new PlayerActivity(
+    //             Type: ActivityType.CONNECTED,
+    //             PlayerName: vPlayer.VUser.User.CharacterName.ToString(),
+    //             Occurred: DateTime.UtcNow
+    //         )
+    //     );
+    //
+    //     removeExpiredPlayerActivities();
+    // }
 }
