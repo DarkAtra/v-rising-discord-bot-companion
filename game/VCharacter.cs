@@ -1,4 +1,5 @@
-﻿using ProjectM;
+﻿using System;
+using ProjectM;
 using Unity.Entities;
 
 namespace v_rising_discord_bot_companion.game;
@@ -20,6 +21,6 @@ public readonly record struct VCharacter(
     }
 
     public int getGearLevel() {
-        return (int) VWorld.Server.EntityManager.GetComponentData<Equipment>(CharacterEntity).GetFullLevel();
+        return Convert.ToInt32(VWorld.Server.EntityManager.GetComponentData<Equipment>(CharacterEntity).GetFullLevel());
     }
 }
