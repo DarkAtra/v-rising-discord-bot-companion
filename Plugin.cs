@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
+using ProjectM.Physics;
 using UnityEngine;
 using v_rising_discord_bot_companion.query;
 
@@ -18,6 +21,7 @@ public class Plugin : BasePlugin {
     public static Plugin Instance { get; private set; } = null!;
     private Harmony? _harmony;
     private Component? _queryDispatcher;
+    private MonoBehaviour? _monoBehaviour;
 
     private PluginConfig? _pluginConfig;
     private ConfigEntry<string> _basicAuthUsers;
@@ -66,6 +70,16 @@ public class Plugin : BasePlugin {
     public PluginConfig GetPluginConfig() {
         _pluginConfig ??= ParsePluginConfig();
         return (PluginConfig) _pluginConfig;
+    }
+
+    public void StartCoroutine(IEnumerator routine) {
+
+        if (_monoBehaviour == null) {
+            _monoBehaviour = new GameObject(MyPluginInfo.PLUGIN_NAME).AddComponent<IgnorePhysicsDebugSystem>();
+            Object.DontDestroyOnLoad(_monoBehaviour.gameObject);
+        }
+
+        _monoBehaviour.StartCoroutine(routine.WrapToIl2Cpp());
     }
 
     private PluginConfig ParsePluginConfig() {
