@@ -16,7 +16,7 @@
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.691" IncludeAssets="compile"/>
         <PackageReference Include="BepInEx.Core" Version="6.0.0-be.691" IncludeAssets="compile"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0"/>
-        <PackageReference Include="VRising.Unhollowed.Client" Version="1.1.0.9121701"/>
+        <PackageReference Include="VRising.Unhollowed.Client" Version="1.1.7.9169101"/>
     </ItemGroup>
 
     <Target Name="CopyDLLsToBuildOutput" AfterTargets="Build">
