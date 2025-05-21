@@ -12,7 +12,7 @@ using DateTime = System.DateTime;
 
 namespace v_rising_discord_bot_companion.activity;
 
-[HarmonyPatch(typeof(ServerBootstrapSystem))]
+[HarmonyPatch]
 public class ServerBootstrapSystemPatches {
 
     private static readonly List<PlayerActivity> _playerActivities = [];
@@ -35,7 +35,7 @@ public class ServerBootstrapSystemPatches {
     ) {
 
         var userIndex = __instance._NetEndPointToApprovedUserIndex[netConnectionId];
-        var serverClient = __instance._ApprovedUsersLookup[userIndex];
+        var serverClient = __instance._ApprovedUsersLookup[userIndex]!;
         var userEntity = serverClient.UserEntity;
         var vPlayer = VPlayer.from(userEntity);
 
@@ -67,7 +67,7 @@ public class ServerBootstrapSystemPatches {
     ) {
 
         var userIndex = __instance._NetEndPointToApprovedUserIndex[netConnectionId];
-        var serverClient = __instance._ApprovedUsersLookup[userIndex];
+        var serverClient = __instance._ApprovedUsersLookup[userIndex]!;
         var userEntity = serverClient.UserEntity;
         var vPlayer = VPlayer.from(userEntity);
 

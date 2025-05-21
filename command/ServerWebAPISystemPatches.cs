@@ -26,7 +26,7 @@ public class ServerWebAPISystemPatches {
     };
 
     [HarmonyPostfix]
-    [HarmonyPatch("OnCreate")]
+    [HarmonyPatch(nameof(ServerWebAPISystem.OnCreate))]
     public static void OnCreate(ServerWebAPISystem __instance) {
 
         if (!SettingsManager.ServerHostSettings.API.Enabled) {

@@ -10,7 +10,7 @@ namespace v_rising_discord_bot_companion.command;
 public class HttpReceiveServicePatches {
 
     [HarmonyPrefix]
-    [HarmonyPatch("IsAllowed")]
+    [HarmonyPatch(nameof(HttpServiceReceiveThread.IsAllowed))]
     public static bool IsAllowed(HttpListenerContext context, ref bool __result) {
 
         var pluginConfig = Plugin.Instance.GetPluginConfig();

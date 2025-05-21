@@ -23,7 +23,7 @@ public class VampireDownedServerEventSystemPatches {
     }
 
     [HarmonyPostfix]
-    [HarmonyPatch("OnUpdate")]
+    [HarmonyPatch(nameof(VampireDownedServerEventSystem.OnUpdate))]
     public static void Postfix(VampireDownedServerEventSystem __instance) {
 
         if (__instance.__query_1174204813_0 == null) {
