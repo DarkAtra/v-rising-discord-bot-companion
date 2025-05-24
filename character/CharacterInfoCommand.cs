@@ -14,17 +14,10 @@ public static class CharacterInfoCommand {
             .Where(vPlayer => vPlayer.HasCharacter())
             .Select(player => {
 
-                var clanEntity = player.VUser.User.ClanEntity._Entity;
-                string? clan = null;
-                var entityManager = VWorld.Server.EntityManager;
-                if (entityManager.HasComponent<ClanTeam>(clanEntity)) {
-                    clan = entityManager.GetComponentData<ClanTeam>(clanEntity).Name.ToString();
-                }
-
                 var killedVBloods = new List<VBlood>();
-                var hasProgression = ProgressionUtility.TryGetProgressionEntity(entityManager, player.VUser.UserEntity, out var progressionEntity);
+                var hasProgression = ProgressionUtility.TryGetProgressionEntity(VWorld.Server.EntityManager, player.VUser.UserEntity, out var progressionEntity);
                 if (hasProgression) {
-                    foreach (var unlockedVBlood in entityManager.GetBuffer<UnlockedVBlood>(progressionEntity)) {
+                    foreach (var unlockedVBlood in VWorld.Server.EntityManager.GetBuffer<UnlockedVBlood>(progressionEntity)) {
                         if (Enum.IsDefined(typeof(VBlood), unlockedVBlood.VBlood.GuidHash)) {
                             killedVBloods.Add((VBlood) unlockedVBlood.VBlood.GuidHash);
                         }
@@ -34,7 +27,7 @@ public static class CharacterInfoCommand {
                 return new CharacterResponse(
                     Name: ((VCharacter) player.VCharacter!).Character.Name.ToString(),
                     GearLevel: ((VCharacter) player.VCharacter!).getGearLevel(),
-                    Clan: clan,
+                    Clan: player.VUser.GetClanName(),
                     KilledVBloods: killedVBloods
                 );
             }).ToList();

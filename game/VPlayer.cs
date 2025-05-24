@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ProjectM.Network;
 using Unity.Collections;
 using Unity.Entities;
@@ -28,13 +27,18 @@ public readonly record struct VPlayer(
     }
 
     public static List<VPlayer> GetAllPlayers() {
-        return ListUtils.Convert(
-                VWorld.Server.EntityManager
-                    .CreateEntityQuery(ComponentType.ReadOnly<User>())
-                    .ToEntityArray(Allocator.Temp)
-            )
-            .Select(from)
-            .ToList();
+
+        var players = VWorld.Server.EntityManager
+            .CreateEntityQuery(ComponentType.ReadOnly<User>())
+            .ToEntityArray(Allocator.Temp);
+
+        var vPlayers = new List<VPlayer>();
+        foreach (var player in players) {
+            vPlayers.Add(from(player));
+        }
+
+        players.Dispose();
+        return vPlayers;
     }
 
     public bool HasCharacter() {

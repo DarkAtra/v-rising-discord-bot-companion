@@ -34,6 +34,7 @@ public class VampireDownedServerEventSystemPatches {
         foreach (var entity in entities) {
             handleDownedEntity(entity);
         }
+        entities.Dispose();
 
         removeExpiredPvpKills();
     }

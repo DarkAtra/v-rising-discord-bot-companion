@@ -14,6 +14,7 @@ using v_rising_discord_bot_companion.activity;
 using v_rising_discord_bot_companion.character;
 using v_rising_discord_bot_companion.killfeed;
 using v_rising_discord_bot_companion.query;
+using v_rising_discord_bot_companion.raid;
 
 namespace v_rising_discord_bot_companion.command;
 
@@ -50,6 +51,12 @@ public class ServerWebAPISystemPatches {
             new Regex("/v-rising-discord-bot/pvp-kills"),
             "GET",
             BuildAdapter(_ => VampireDownedServerEventSystemPatches.getPvpKills())
+        ));
+
+        __instance._HttpReceiveService.AddRoute(new HttpServiceReceiveThread.Route(
+            new Regex("/v-rising-discord-bot/raids"),
+            "GET",
+            BuildAdapter(_ => DeathEventListenerSystemPatches.getRaids())
         ));
 
         Plugin.Logger.LogInfo($"Added v-rising-discord-bot endpoints.");
