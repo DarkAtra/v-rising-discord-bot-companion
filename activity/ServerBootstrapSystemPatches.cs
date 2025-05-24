@@ -93,7 +93,7 @@ public class ServerBootstrapSystemPatches {
     [HarmonyPatch(typeof(HandleCreateCharacterEventSystem), nameof(HandleCreateCharacterEventSystem.OnUpdate))]
     public static void OnCharacterCreated(HandleCreateCharacterEventSystem __instance) {
 
-        var fromCharacterEvents = ListUtils.Convert(__instance._CreateCharacterEventQuery.ToComponentDataArray<FromCharacter>(Allocator.Temp));
+        var fromCharacterEvents = __instance._CreateCharacterEventQuery.ToComponentDataArray<FromCharacter>(Allocator.Temp);
 
         foreach (var fromCharacter in fromCharacterEvents) {
 
@@ -101,6 +101,8 @@ public class ServerBootstrapSystemPatches {
 
             Plugin.Instance.StartCoroutine(HandleCharacterCreatedRoutine(userEntity));
         }
+
+        fromCharacterEvents.Dispose();
     }
 
     private static IEnumerator HandleCharacterCreatedRoutine(Entity userEntity) {
