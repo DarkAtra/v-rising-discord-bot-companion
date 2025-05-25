@@ -7,6 +7,12 @@ GET http://localhost:25570/v-rising-discord-bot/player-activities
 ### Get pvp kills
 GET http://localhost:25570/v-rising-discord-bot/pvp-kills
 
+### Get raids
+GET http://localhost:25570/v-rising-discord-bot/raids
+
+### Get vblood kills
+GET http://localhost:25570/v-rising-discord-bot/vblood-kills
+
 ### Metrics
 GET http://localhost:25570/metrics
 

@@ -10,7 +10,11 @@ namespace v_rising_discord_bot_companion.killfeed;
 [HarmonyPatch(typeof(VBloodSystem))]
 public class VBloodSystemPatches {
 
+    private const double EVENT_DELAY = 2;
+
     private static readonly List<VBloodKill> _vBloodKills = new();
+    private static readonly Dictionary<VBlood, List<Player>> killersPerVBlood = new();
+    private static readonly Dictionary<VBlood, DateTime> lastKillerUpdates = new();
 
     public static List<VBloodKill> getVBloodKills() {
         removeExpiredVBloodKills();
@@ -29,7 +33,6 @@ public class VBloodSystemPatches {
 
         if (vBloodConsumedEvents.Length > 0) {
 
-            var killersPerVBlood = new Dictionary<VBlood, List<Player>>();
             foreach (var vBloodConsumedEvent in vBloodConsumedEvents) {
                 if (VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(vBloodConsumedEvent.Target)) {
 
@@ -43,20 +46,30 @@ public class VBloodSystemPatches {
 
                     var vBlood = (VBlood) vBloodConsumedEvent.Source.GuidHash;
                     addKiller(
-                        killersPerVBlood,
                         vBlood,
                         new Player(
                             Name: ((VCharacter) vPlayer.VCharacter!).Character.Name.ToString(),
                             GearLevel: ((VCharacter) vPlayer.VCharacter!).getGearLevel()
                         )
                     );
+                    lastKillerUpdates[vBlood] = DateTime.UtcNow;
                 }
             }
+        } else if (lastKillerUpdates.Count > 0) {
 
-            foreach (var (vBlood, killers) in killersPerVBlood) {
+            var readyForEvent = new List<VBlood>();
+            foreach (var (vBlood, lastUpdateTime) in lastKillerUpdates) {
+                if (DateTime.UtcNow - lastUpdateTime < TimeSpan.FromSeconds(EVENT_DELAY)) {
+                    continue;
+                }
+                readyForEvent.Add(vBlood);
+            }
+
+            foreach (var vBlood in readyForEvent) {
+                lastKillerUpdates.Remove(vBlood);
                 _vBloodKills.Add(
                     new VBloodKill(
-                        Killers: killers,
+                        Killers: killersPerVBlood[vBlood],
                         VBlood: vBlood,
                         Occurred: DateTime.UtcNow
                     )
@@ -65,7 +78,7 @@ public class VBloodSystemPatches {
         }
     }
 
-    private static void addKiller(Dictionary<VBlood, List<Player>> killersPerVBlood, VBlood vBlood, Player player) {
+    private static void addKiller(VBlood vBlood, Player player) {
         if (!killersPerVBlood.ContainsKey(vBlood)) {
             killersPerVBlood[vBlood] = new List<Player>();
         }
