@@ -59,6 +59,12 @@ public class ServerWebAPISystemPatches {
             BuildAdapter(_ => DeathEventListenerSystemPatches.getRaids())
         ));
 
+        __instance._HttpReceiveService.AddRoute(new HttpServiceReceiveThread.Route(
+            new Regex("/v-rising-discord-bot/vblood-kills"),
+            "GET",
+            BuildAdapter(_ => VBloodSystemPatches.getVBloodKills())
+        ));
+
         Plugin.Logger.LogInfo($"Added v-rising-discord-bot endpoints.");
     }
 

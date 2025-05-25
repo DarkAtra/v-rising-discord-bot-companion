@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace v_rising_discord_bot_companion.character;
+namespace v_rising_discord_bot_companion.common;
 
 public class VBloodNameAttribute : Attribute {
 
