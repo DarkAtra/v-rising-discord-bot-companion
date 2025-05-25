@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectM;
+using v_rising_discord_bot_companion.common;
 using v_rising_discord_bot_companion.game;
 
 namespace v_rising_discord_bot_companion.character;

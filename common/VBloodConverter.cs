@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace v_rising_discord_bot_companion.character;
+namespace v_rising_discord_bot_companion.common;
 
 public class VBloodConverter : JsonConverter<VBlood> {
 

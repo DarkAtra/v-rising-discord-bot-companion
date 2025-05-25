@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace v_rising_discord_bot_companion.character;
+namespace v_rising_discord_bot_companion.common;
 
 [JsonConverter(typeof(VBloodConverter))]
 public enum VBlood {
