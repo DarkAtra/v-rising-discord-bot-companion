@@ -24,7 +24,6 @@ public static class VWorld {
     private static World? GetWorld(string name) {
         foreach (var world in World.s_AllWorlds) {
             if (world.Name == name) {
-                _serverWorld = world;
                 return world;
             }
         }

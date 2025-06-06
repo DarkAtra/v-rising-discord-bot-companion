@@ -66,8 +66,16 @@ public class ServerBootstrapSystemPatches {
         string extraData
     ) {
 
-        var userIndex = __instance._NetEndPointToApprovedUserIndex[netConnectionId];
-        var serverClient = __instance._ApprovedUsersLookup[userIndex]!;
+        if (!__instance._NetEndPointToApprovedUserIndex.TryGetValue(netConnectionId, out var userIndex)
+            || userIndex >= __instance._ApprovedUsersLookup.Count) {
+            return;
+        }
+
+        var serverClient = __instance._ApprovedUsersLookup[userIndex];
+        if (serverClient == null) {
+            return;
+        }
+
         var userEntity = serverClient.UserEntity;
         var vPlayer = VPlayer.from(userEntity);
 
