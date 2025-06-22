@@ -67,6 +67,7 @@ public class VBloodSystemPatches {
 
             foreach (var vBlood in readyForEvent) {
                 lastKillerUpdates.Remove(vBlood);
+                killersPerVBlood.Remove(vBlood);
                 _vBloodKills.Add(
                     new VBloodKill(
                         Killers: killersPerVBlood[vBlood],
