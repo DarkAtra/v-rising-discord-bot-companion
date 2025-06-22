@@ -30,7 +30,11 @@
                         "path": "bin/Release/net*/v-rising-discord-bot-companion.dll",
                         "label": "v-rising-discord-bot-companion.dll"
                     }
-                ]
+                ],
+                "successComment": false,
+                "releasedLabels": false,
+                "failComment": false,
+                "failTitle": false
             }
         ]
     ]
