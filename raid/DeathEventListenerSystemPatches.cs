@@ -21,11 +21,11 @@ public class DeathEventListenerSystemPatches {
     private static readonly List<Raid> _raids = [];
 
     public static List<Raid> getRaids() {
-        removeExpiredPvpKills();
+        removeExpiredRaids();
         return _raids;
     }
 
-    private static void removeExpiredPvpKills() {
+    private static void removeExpiredRaids() {
         _raids.RemoveAll(raid => DateTime.UtcNow > raid.Occurred.AddMinutes(10));
     }
 
@@ -72,7 +72,7 @@ public class DeathEventListenerSystemPatches {
             deathEvents.Dispose();
         }
 
-        removeExpiredPvpKills();
+        removeExpiredRaids();
     }
 
     private static Player map(VPlayer player) {
