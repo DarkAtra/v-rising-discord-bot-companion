@@ -18,15 +18,23 @@ public class DeathEventListenerSystemPatches {
     private static readonly PrefabGUID SIEGE_GOLEM_PREFAB_ID = new(914043867);
     private static ServerGameManager? serverGameManager;
 
-    private static readonly List<Raid> _raids = [];
+    private static readonly Dictionary<ulong, Raid> _raids = new();
 
     public static List<Raid> getRaids() {
         removeExpiredRaids();
-        return _raids;
+        return _raids.Select(it => it.Value).ToList();
     }
 
     private static void removeExpiredRaids() {
-        _raids.RemoveAll(raid => DateTime.UtcNow > raid.Occurred.AddMinutes(10));
+        List<ulong> expiredRaids = new();
+        foreach (var keyValuePair in _raids) {
+            if (DateTime.UtcNow > keyValuePair.Value.Updated.AddMinutes(10)) {
+                expiredRaids.Add(keyValuePair.Key);
+            }
+        }
+        foreach (var expiredRaid in expiredRaids) {
+            _raids.Remove(expiredRaid);
+        }
     }
 
     [HarmonyPostfix]
@@ -42,27 +50,7 @@ public class DeathEventListenerSystemPatches {
 
                     // if a player with siege golem buff breached the castle
                     if (getServerGameManager().TryGetBuff(deathEvent.Killer, SIEGE_GOLEM_PREFAB_ID.ToIdentifier(), out _)) {
-
-                        var attackingPlayer = VPlayer.from(VWorld.Server.EntityManager.GetComponentData<PlayerCharacter>(deathEvent.Killer).UserEntity);
-
-                        var attackers = new List<VPlayer>();
-                        attackers.Add(attackingPlayer);
-                        attackers.AddRange(getClanMembers(attackingPlayer));
-
-                        var castleHeartEntity = VWorld.Server.EntityManager.GetComponentData<CastleHeartConnection>(deathEvent.Died).CastleHeartEntity._Entity;
-                        var defendingPlayer = VPlayer.from(VWorld.Server.EntityManager.GetComponentData<UserOwner>(castleHeartEntity).Owner._Entity);
-
-                        var defenders = new List<VPlayer>();
-                        defenders.Add(defendingPlayer);
-                        defenders.AddRange(getClanMembers(defendingPlayer));
-
-                        _raids.Add(
-                            new Raid(
-                                Attackers: attackers.Select(map).ToList(),
-                                Defenders: defenders.Select(map).ToList(),
-                                Occurred: DateTime.UtcNow
-                            )
-                        );
+                        onCastleBreached(deathEvent);
                     }
                 }
             }
@@ -75,11 +63,60 @@ public class DeathEventListenerSystemPatches {
         removeExpiredRaids();
     }
 
-    private static Player map(VPlayer player) {
+    private static void onCastleBreached(DeathEvent deathEvent) {
+
+        var attackingPlayer = VPlayer.from(VWorld.Server.EntityManager.GetComponentData<PlayerCharacter>(deathEvent.Killer).UserEntity);
+        var castleHeartEntity = VWorld.Server.EntityManager.GetComponentData<CastleHeartConnection>(deathEvent.Died).CastleHeartEntity._Entity;
+        var defendingPlayer = VPlayer.from(VWorld.Server.EntityManager.GetComponentData<UserOwner>(castleHeartEntity).Owner._Entity);
+
+        var attackers = new List<VPlayer>();
+        attackers.Add(attackingPlayer);
+        attackers.AddRange(getClanMembers(attackingPlayer));
+
+        var defenders = new List<VPlayer>();
+        defenders.Add(defendingPlayer);
+        defenders.AddRange(getClanMembers(defendingPlayer));
+
+        var raidId = defendingPlayer.VUser.User.PlatformId; // might be better to use the castle hearth as id here
+        var now = DateTime.UtcNow;
+
+        if (!_raids.TryGetValue(raidId, out var raid)) {
+            _raids.Add(
+                raidId,
+                new Raid(
+                    Id: Guid.NewGuid(),
+                    Attackers: attackers.Select(it => map(it, now)).ToList(),
+                    Defenders: defenders.Select(it => map(it, now)).ToList(),
+                    Occurred: now,
+                    Updated: now
+                )
+            );
+            return;
+        }
+
+        foreach (var vPlayer in attackers) {
+            var mapped = map(vPlayer, now);
+            if (raid.Attackers.All(it => it.Id != mapped.Id)) {
+                raid.Attackers.Add(mapped);
+                raid.Updated = now; // FIXME: this does not work for some reason
+            }
+        }
+        foreach (var vPlayer in defenders) {
+            var mapped = map(vPlayer, now);
+            if (raid.Defenders.All(it => it.Id != mapped.Id)) {
+                raid.Defenders.Add(mapped);
+                raid.Updated = now; // FIXME: this does not work for some reason
+            }
+        }
+    }
+
+    private static Player map(VPlayer player, DateTime now) {
         return new Player(
+            Id: player.VUser.User.PlatformId,
             Name: ((VCharacter) player.VCharacter!).Character.Name.ToString(),
             GearLevel: ((VCharacter) player.VCharacter!).getGearLevel(),
-            Clan: player.VUser.GetClanName()
+            Clan: player.VUser.GetClanName(),
+            JoinedAt: now
         );
     }
 
@@ -90,7 +127,7 @@ public class DeathEventListenerSystemPatches {
 
         if (VWorld.Server.EntityManager.HasComponent<ClanTeam>(clanEntity)) {
             var users = VWorld.Server.EntityManager.GetBuffer<SyncToUserBuffer>(clanEntity);
-            foreach (SyncToUserBuffer user in users) {
+            foreach (var user in users) {
                 if (user.UserEntity != player.VUser.UserEntity) {
                     clanMembers.Add(VPlayer.from(user.UserEntity));
                 }
