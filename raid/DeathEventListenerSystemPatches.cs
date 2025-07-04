@@ -43,7 +43,7 @@ public class DeathEventListenerSystemPatches {
 
         var deathEvents = __instance._DeathEventQuery.ToComponentDataArray<DeathEvent>(Allocator.Temp);
         try {
-            foreach (DeathEvent deathEvent in deathEvents) {
+            foreach (var deathEvent in deathEvents) {
 
                 if (VWorld.Server.EntityManager.HasComponent<AnnounceCastleBreached>(deathEvent.Died)
                     && deathEvent.StatChangeReason.Equals(StatChangeReason.StatChangeSystem_0)) {
