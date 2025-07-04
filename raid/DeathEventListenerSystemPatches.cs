@@ -84,7 +84,7 @@ public class DeathEventListenerSystemPatches {
 
             var raidId = Guid.NewGuid();
 
-            Plugin.Logger.LogDebug($"New raid with id '{raidId}' started for  castle owned by player with id '{castleOwnerId}'...");
+            Plugin.Logger.LogDebug($"New raid with id '{raidId}' started for castle owned by player with id '{castleOwnerId}'...");
 
             _raids.Add(
                 castleOwnerId,
@@ -96,6 +96,8 @@ public class DeathEventListenerSystemPatches {
                     Updated: now
                 )
             );
+
+            Plugin.Logger.LogDebug($"Added new raid with id '{raid.Id}'.");
             return;
         }
 
@@ -115,6 +117,8 @@ public class DeathEventListenerSystemPatches {
                 raid.Updated = now; // FIXME: this does not work for some reason
             }
         }
+
+        Plugin.Logger.LogDebug($"Finished updating raid with id '{raid.Id}'.");
     }
 
     private static Player map(VPlayer player, DateTime now) {
