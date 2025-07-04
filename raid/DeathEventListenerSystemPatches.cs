@@ -39,7 +39,7 @@ public class DeathEventListenerSystemPatches {
 
     [HarmonyPostfix]
     [HarmonyPatch(nameof(DeathEventListenerSystem.OnUpdate))]
-    static void Postfix(DeathEventListenerSystem __instance) {
+    public static void Postfix(DeathEventListenerSystem __instance) {
 
         var deathEvents = __instance._DeathEventQuery.ToComponentDataArray<DeathEvent>(Allocator.Temp);
         try {
@@ -77,14 +77,19 @@ public class DeathEventListenerSystemPatches {
         defenders.Add(defendingPlayer);
         defenders.AddRange(getClanMembers(defendingPlayer));
 
-        var raidId = defendingPlayer.VUser.User.PlatformId; // might be better to use the castle hearth as id here
+        var castleOwnerId = defendingPlayer.GetId(); // might be better to use the castle hearth as id here
         var now = DateTime.UtcNow;
 
-        if (!_raids.TryGetValue(raidId, out var raid)) {
+        if (!_raids.TryGetValue(castleOwnerId, out var raid)) {
+
+            var raidId = Guid.NewGuid();
+
+            Plugin.Logger.LogDebug($"New raid with id '{raidId}' started for  castle owned by player with id '{castleOwnerId}'...");
+
             _raids.Add(
-                raidId,
+                castleOwnerId,
                 new Raid(
-                    Id: Guid.NewGuid(),
+                    Id: raidId,
                     Attackers: attackers.Select(it => map(it, now)).ToList(),
                     Defenders: defenders.Select(it => map(it, now)).ToList(),
                     Occurred: now,
@@ -94,17 +99,19 @@ public class DeathEventListenerSystemPatches {
             return;
         }
 
+        Plugin.Logger.LogDebug($"Updating raid with id '{raid.Id}' if necessary...");
+
         foreach (var vPlayer in attackers) {
-            var mapped = map(vPlayer, now);
-            if (raid.Attackers.All(it => it.Id != mapped.Id)) {
-                raid.Attackers.Add(mapped);
+            if (raid.Attackers.All(it => it.Id != vPlayer.GetId())) {
+                Plugin.Logger.LogDebug($"New attacker joined the raid with id '{raid.Id}'. Setting raid.Updated to: {now}");
+                raid.Attackers.Add(map(vPlayer, now));
                 raid.Updated = now; // FIXME: this does not work for some reason
             }
         }
         foreach (var vPlayer in defenders) {
-            var mapped = map(vPlayer, now);
-            if (raid.Defenders.All(it => it.Id != mapped.Id)) {
-                raid.Defenders.Add(mapped);
+            if (raid.Defenders.All(it => it.Id != vPlayer.GetId())) {
+                Plugin.Logger.LogDebug($"New defender joined the raid with id '{raid.Id}'. Setting raid.Updated to: {now}");
+                raid.Defenders.Add(map(vPlayer, now));
                 raid.Updated = now; // FIXME: this does not work for some reason
             }
         }
@@ -112,7 +119,7 @@ public class DeathEventListenerSystemPatches {
 
     private static Player map(VPlayer player, DateTime now) {
         return new Player(
-            Id: player.VUser.User.PlatformId,
+            Id: player.GetId(),
             Name: ((VCharacter) player.VCharacter!).Character.Name.ToString(),
             GearLevel: ((VCharacter) player.VCharacter!).getGearLevel(),
             Clan: player.VUser.GetClanName(),

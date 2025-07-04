@@ -41,6 +41,10 @@ public readonly record struct VPlayer(
         return vPlayers;
     }
 
+    public ulong GetId() {
+        return VUser.User.PlatformId;
+    }
+
     public bool HasCharacter() {
         return VCharacter != null;
     }
