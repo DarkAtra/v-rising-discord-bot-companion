@@ -107,14 +107,14 @@ public class DeathEventListenerSystemPatches {
             if (raid.Attackers.All(it => it.Id != vPlayer.GetId())) {
                 Plugin.Logger.LogDebug($"New attacker joined the raid with id '{raid.Id}'. Setting raid.Updated to: {now}");
                 raid.Attackers.Add(map(vPlayer, now));
-                raid.Updated = now; // FIXME: this does not work for some reason
+                raid.Updated = now;
             }
         }
         foreach (var vPlayer in defenders) {
             if (raid.Defenders.All(it => it.Id != vPlayer.GetId())) {
                 Plugin.Logger.LogDebug($"New defender joined the raid with id '{raid.Id}'. Setting raid.Updated to: {now}");
                 raid.Defenders.Add(map(vPlayer, now));
-                raid.Updated = now; // FIXME: this does not work for some reason
+                raid.Updated = now;
             }
         }
 
