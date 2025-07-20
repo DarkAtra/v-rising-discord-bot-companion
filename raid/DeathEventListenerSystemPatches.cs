@@ -97,7 +97,7 @@ public class DeathEventListenerSystemPatches {
                 )
             );
 
-            Plugin.Logger.LogDebug($"Added new raid with id '{raid.Id}'.");
+            Plugin.Logger.LogDebug($"Added new raid with id '{raidId}'.");
             return;
         }
 
