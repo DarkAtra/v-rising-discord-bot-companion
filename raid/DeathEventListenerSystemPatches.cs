@@ -118,6 +118,8 @@ public class DeathEventListenerSystemPatches {
             }
         }
 
+        _raids[castleOwnerId] = raid;
+
         Plugin.Logger.LogDebug($"Finished updating raid with id '{raid.Id}'.");
     }
 
