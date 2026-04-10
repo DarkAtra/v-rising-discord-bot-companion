@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using ProjectM;
 using v_rising_discord_bot_companion.common;
@@ -69,7 +70,7 @@ public class VBloodSystemPatches {
                 lastKillerUpdates.Remove(vBlood);
                 _vBloodKills.Add(
                     new VBloodKill(
-                        Killers: killersPerVBlood[vBlood],
+                        Killers: killersPerVBlood[vBlood].DistinctBy(player => player.Name).ToList(),
                         VBlood: vBlood,
                         Occurred: DateTime.UtcNow
                     )
