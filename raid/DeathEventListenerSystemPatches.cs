@@ -44,14 +44,14 @@ public class DeathEventListenerSystemPatches {
         var deathEvents = __instance._DeathEventQuery.ToComponentDataArray<DeathEvent>(Allocator.Temp);
         try {
             foreach (var deathEvent in deathEvents) {
+                if (!VWorld.Server.EntityManager.HasComponent<AnnounceCastleBreached>(deathEvent.Died)
+                    || !deathEvent.StatChangeReason.Equals(StatChangeReason.StatChangeSystem_0)) {
+                    continue;
+                }
 
-                if (VWorld.Server.EntityManager.HasComponent<AnnounceCastleBreached>(deathEvent.Died)
-                    && deathEvent.StatChangeReason.Equals(StatChangeReason.StatChangeSystem_0)) {
-
-                    // if a player with siege golem buff breached the castle
-                    if (getServerGameManager().TryGetBuff(deathEvent.Killer, SIEGE_GOLEM_PREFAB_ID.ToIdentifier(), out _)) {
-                        onCastleBreached(deathEvent);
-                    }
+                // if a player with siege golem buff breached the castle
+                if (getServerGameManager().TryGetBuff(deathEvent.Killer, SIEGE_GOLEM_PREFAB_ID.ToIdentifier(), out _)) {
+                    onCastleBreached(deathEvent);
                 }
             }
         } catch (Exception e) {
@@ -138,12 +138,14 @@ public class DeathEventListenerSystemPatches {
         var clanEntity = player.VUser.User.ClanEntity._Entity;
         var clanMembers = new List<VPlayer>();
 
-        if (VWorld.Server.EntityManager.HasComponent<ClanTeam>(clanEntity)) {
-            var users = VWorld.Server.EntityManager.GetBuffer<SyncToUserBuffer>(clanEntity);
-            foreach (var user in users) {
-                if (user.UserEntity != player.VUser.UserEntity) {
-                    clanMembers.Add(VPlayer.from(user.UserEntity));
-                }
+        if (!VWorld.Server.EntityManager.HasComponent<ClanTeam>(clanEntity)) {
+            return clanMembers;
+        }
+
+        var users = VWorld.Server.EntityManager.GetBuffer<SyncToUserBuffer>(clanEntity);
+        foreach (var user in users) {
+            if (user.UserEntity != player.VUser.UserEntity) {
+                clanMembers.Add(VPlayer.from(user.UserEntity));
             }
         }
 

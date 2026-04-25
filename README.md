@@ -6,6 +6,13 @@ with [v-rising-discord-bot](https://github.com/DarkAtra/v-rising-discord-bot#v-r
 
 [Refer to the documentation for details on how to use this mod.](https://vrising.darkatra.dev/bot-companion.html)
 
+## Build from source
+
+```bash
+dotnet restore
+dotnet build --no-restore --configuration Release
+```
+
 ## Support
 
 If you have questions or need support, feel free to join [this discord server](https://discord.gg/KcMcYKa6Nt).

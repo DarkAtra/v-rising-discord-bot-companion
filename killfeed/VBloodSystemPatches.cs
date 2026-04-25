@@ -35,26 +35,27 @@ public class VBloodSystemPatches {
         if (vBloodConsumedEvents.Length > 0) {
 
             foreach (var vBloodConsumedEvent in vBloodConsumedEvents) {
-                if (VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(vBloodConsumedEvent.Target)) {
-
-                    var player = VWorld.Server.EntityManager.GetComponentData<PlayerCharacter>(vBloodConsumedEvent.Target);
-                    var vPlayer = VPlayer.from(player.UserEntity);
-
-                    if (!Enum.IsDefined(typeof(VBlood), vBloodConsumedEvent.Source.GuidHash)) {
-                        Plugin.Logger.LogWarning($"An unknown VBlood was killed: {vBloodConsumedEvent.Source.GuidHash}");
-                        continue;
-                    }
-
-                    var vBlood = (VBlood) vBloodConsumedEvent.Source.GuidHash;
-                    addKiller(
-                        vBlood,
-                        new Player(
-                            Name: ((VCharacter) vPlayer.VCharacter!).Character.Name.ToString(),
-                            GearLevel: ((VCharacter) vPlayer.VCharacter!).getGearLevel()
-                        )
-                    );
-                    lastKillerUpdates[vBlood] = DateTime.UtcNow;
+                if (!VWorld.Server.EntityManager.HasComponent<PlayerCharacter>(vBloodConsumedEvent.Target)) {
+                    continue;
                 }
+
+                var player = VWorld.Server.EntityManager.GetComponentData<PlayerCharacter>(vBloodConsumedEvent.Target);
+                var vPlayer = VPlayer.from(player.UserEntity);
+
+                if (!Enum.IsDefined(typeof(VBlood), vBloodConsumedEvent.Source.GuidHash)) {
+                    Plugin.Logger.LogWarning($"An unknown VBlood was killed: {vBloodConsumedEvent.Source.GuidHash}");
+                    continue;
+                }
+
+                var vBlood = (VBlood) vBloodConsumedEvent.Source.GuidHash;
+                addKiller(
+                    vBlood,
+                    new Player(
+                        Name: ((VCharacter) vPlayer.VCharacter!).Character.Name.ToString(),
+                        GearLevel: ((VCharacter) vPlayer.VCharacter!).getGearLevel()
+                    )
+                );
+                lastKillerUpdates[vBlood] = DateTime.UtcNow;
             }
         } else if (lastKillerUpdates.Count > 0) {
 

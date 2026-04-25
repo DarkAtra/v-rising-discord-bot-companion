@@ -2,11 +2,10 @@
 
 namespace v_rising_discord_bot_companion.common;
 
-public class VBloodNameAttribute : Attribute {
+[AttributeUsage(AttributeTargets.Field)]
+public class VBloodNameAttribute(
+    string displayName
+) : Attribute {
 
-    public String DisplayName { get; }
-
-    public VBloodNameAttribute(string displayName) {
-        DisplayName = displayName;
-    }
+    public string DisplayName { get; } = displayName;
 }
