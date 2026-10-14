@@ -31,7 +31,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '8.0.408'
+          dotnet-version: '10.0.402'
 
       - name: Restore Dependencies
         run: dotnet restore
@@ -55,7 +55,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '8.0.408'
+          dotnet-version: '10.0.402'
 
       - name: Setup Thunderstore CLI
         run: dotnet tool install --global tcli
