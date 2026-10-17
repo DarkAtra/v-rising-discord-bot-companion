@@ -8,14 +8,29 @@
         ":semanticCommits",
         ":labels(dependencies)",
         "group:allNonMajor",
-        "schedule:weekly"
+        "schedule:weekly",
+        "helpers:pinGitHubActionDigests"
     ],
     "packageRules": [
         {
+            "description": "Don't suggest Pre-Release Versions",
             "allowedVersions": "!/-.+\\.[0-9]+$/",
             "matchPackageNames": [
                 "*"
             ]
+        },
+        {
+            "description": "Disable Major Updates for .NET",
+            "matchDatasources": [
+                "dotnet-version"
+            ],
+            "matchPackageNames": [
+                "dotnet-sdk"
+            ],
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "enabled": false
         }
     ]
 }
